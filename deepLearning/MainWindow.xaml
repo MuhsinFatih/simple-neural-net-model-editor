@@ -8,7 +8,7 @@
         Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4">
     <Grid>
 
-        <Canvas SizeChanged="Canvas_SizeChanged">
+        <Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged">
 
             <Grid x:Name="grid_layer0" Height="{Binding ActualHeight, ElementName=mainCanvas}">
                 <Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
@@ -24,42 +24,39 @@
                     </UniformGrid>
                 </Border>
             </Grid>
-            <UniformGrid x:Name="grid_neurons" Height="671" Margin="265,0,0,-0.333" VerticalAlignment="Top" Width="513" HorizontalAlignment="Left" Rows="1">
+            <UniformGrid x:Name="grid_neurons" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight,ElementName=mainCanvas}">
             <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-
-                <Ellipse x:Name="btn2" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
             </UniformGrid>
             <UniformGrid x:Name="grid_layer2" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
             </UniformGrid>
             <UniformGrid x:Name="grid_layer3" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
+                <local:Neuron  Height="52" Width="52"/>
             </UniformGrid>
             <UniformGrid x:Name="grid_layer4" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
-            </UniformGrid>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+				<local:Neuron  Height="52" Width="52"/>
+			</UniformGrid>
         </UniformGrid>
         </Canvas>
-        <Canvas Name="mainCanvas" Visibility="Hidden">
+        <Canvas Visibility="Hidden">
 
         </Canvas>
     </Grid>
