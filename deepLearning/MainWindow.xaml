@@ -6,44 +6,47 @@
         xmlns:local="clr-namespace:deepLearning"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4">
-    <Grid Name="mainGrid">
-        
-        <Border Margin="10,0,0,0" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="3" HorizontalAlignment="Left">
-            <UniformGrid  Width="140" Height="140"   Rows="2">
-                <UniformGrid Grid.Row="1" Columns="2" >
-                    <Rectangle Name="btn1" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
-                    <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
-                </UniformGrid>
-                <UniformGrid Grid.Row="2" Columns="2">
-                    <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
-                    <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
-                </UniformGrid>
-            </UniformGrid>
-        </Border>
+    <Grid>
 
-        <UniformGrid Height="671" Margin="265,0,0,-0.333" VerticalAlignment="Top" Width="513" HorizontalAlignment="Left" Rows="1">
-            <UniformGrid HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+        <Canvas SizeChanged="Canvas_SizeChanged">
+
+            <Grid x:Name="grid_layer0" Height="{Binding ActualHeight, ElementName=mainCanvas}">
+                <Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
+                    <UniformGrid  Width="140" Height="140"   Rows="2">
+                        <UniformGrid Grid.Row="1" Columns="2" >
+                            <Rectangle Name="btn1" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
+                            <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
+                        </UniformGrid>
+                        <UniformGrid Grid.Row="2" Columns="2">
+                            <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
+                            <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
+                        </UniformGrid>
+                    </UniformGrid>
+                </Border>
+            </Grid>
+            <UniformGrid x:Name="grid_neurons" Height="671" Margin="265,0,0,-0.333" VerticalAlignment="Top" Width="513" HorizontalAlignment="Left" Rows="1">
+            <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
                 <Ellipse x:Name="btn2" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
             </UniformGrid>
-            <UniformGrid HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+            <UniformGrid x:Name="grid_layer2" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
             </UniformGrid>
-            <UniformGrid HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+            <UniformGrid x:Name="grid_layer3" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
             </UniformGrid>
-            <UniformGrid HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+            <UniformGrid x:Name="grid_layer4" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
@@ -55,5 +58,11 @@
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="52" Stroke="Black" VerticalAlignment="Center" Width="52"/>
             </UniformGrid>
         </UniformGrid>
+        </Canvas>
+        <Canvas Name="mainCanvas" Visibility="Hidden">
+
+        </Canvas>
     </Grid>
+    
+    
 </Window>
