@@ -18,8 +18,13 @@ namespace deepLearning {
     /// Interaction logic for Neuron.xaml
     /// </summary>
     public partial class Neuron : UserControl {
+		
+		public double val = 0;
+
         public Neuron() {
             InitializeComponent();
         }
+
+	
     }
 }

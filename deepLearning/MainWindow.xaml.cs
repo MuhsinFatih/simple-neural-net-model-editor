@@ -30,12 +30,15 @@ namespace deepLearning {
         
         int pixelSize = 70;
         int neuronSize = 52;
-        List<Layer> layers = new List<Layer>();
+        //List<Layer> layers = new List<Layer>();
 
 
         Dictionary<string, Vector> offset = new Dictionary<string, Vector>();
 
         Vector getVector(UIElement of, UIElement relativeTo) {
+			if(of is Neuron) {
+				return (Vector)of.TransformToAncestor(relativeTo).Transform(new Point(neuronSize / 2, neuronSize / 2));
+			}
             return (Vector)of.TransformToAncestor(relativeTo).Transform(new Point(0, 0));
         }
 
@@ -60,6 +63,14 @@ namespace deepLearning {
         }
         public void main(object sender, EventArgs e) {
 
+			((Neuron)grid_layer1.Children[0]).ellipse.Fill = Brushes.Tomato;
+			((Neuron)grid_layer2.Children[1]).ellipse.Fill = Brushes.Green;
+
+
+			Link link = new Link();
+			link.Connect(getVector(of: grid_layer1.Children[1], relativeTo: mainCanvas), getVector(of: grid_layer2.Children[1], relativeTo: mainCanvas));
+			mainCanvas.Children.Add(link);
+			mainCanvas.Children.Add(new Link(getVector(of: grid_layer1.Children[2], relativeTo: mainCanvas), getVector(of: grid_layer2.Children[3], relativeTo: mainCanvas)));
 
             //    Vector relativePoint = (Vector)n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
             //    Point relativePoint2 = n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
@@ -81,14 +92,14 @@ namespace deepLearning {
 
     }
 
-    struct Layer {
-        public string name;
-        public List<Neuron> neurons;
-        public Layer(string name) {
-            this.name = name;
-            neurons = new List<Neuron>();
-        }
-    }
+    //struct Layer {
+    //    public string name;
+    //    public List<Neuron> neurons;
+    //    public Layer(string name) {
+    //        this.name = name;
+    //        neurons = new List<Neuron>();
+    //    }
+    //}
 
     //class Neuron : Border{
     //    public double weight;

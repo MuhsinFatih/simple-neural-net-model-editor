@@ -6,60 +6,66 @@
         xmlns:local="clr-namespace:deepLearning"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4">
-    <Grid>
+	<Grid>
 
-        <Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged">
+		<Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged">
 
-            <Grid x:Name="grid_layer0" Height="{Binding ActualHeight, ElementName=mainCanvas}">
-                <Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
-                    <UniformGrid  Width="140" Height="140"   Rows="2">
-                        <UniformGrid Grid.Row="1" Columns="2" >
-                            <Rectangle Name="btn1" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
-                            <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
-                        </UniformGrid>
-                        <UniformGrid Grid.Row="2" Columns="2">
-                            <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
-                            <Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
-                        </UniformGrid>
-                    </UniformGrid>
-                </Border>
-            </Grid>
-            <UniformGrid x:Name="grid_neurons" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight,ElementName=mainCanvas}">
-            <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-            </UniformGrid>
-            <UniformGrid x:Name="grid_layer2" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-            </UniformGrid>
-            <UniformGrid x:Name="grid_layer3" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+			<Grid x:Name="grid_layer0" Height="{Binding ActualHeight, ElementName=mainCanvas}">
+				<Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
+					<UniformGrid  Width="140" Height="140"   Rows="2">
+						<UniformGrid Grid.Row="1" Columns="2" >
+							<Rectangle Name="btn1" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
+							<Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
+						</UniformGrid>
+						<UniformGrid Grid.Row="2" Columns="2">
+							<Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
+							<Rectangle Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
+						</UniformGrid>
+					</UniformGrid>
+				</Border>
+			</Grid>
+			<UniformGrid x:Name="grid_neurons" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight,ElementName=mainCanvas}" Panel.ZIndex="1">
+				<UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+				</UniformGrid>
+				<UniformGrid x:Name="grid_layer2" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+				</UniformGrid>
+				<UniformGrid x:Name="grid_layer3" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-                <local:Neuron  Height="52" Width="52"/>
-            </UniformGrid>
-            <UniformGrid x:Name="grid_layer4" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
-				<local:Neuron  Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+				</UniformGrid>
+				<UniformGrid x:Name="grid_layer4" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+					<local:Neuron Height="52" Width="52"/>
+				</UniformGrid>
 			</UniformGrid>
-        </UniformGrid>
-        </Canvas>
-        <Canvas Visibility="Hidden">
 
-        </Canvas>
-    </Grid>
-    
-    
+
+
+
+
+
+		</Canvas>
+		<Canvas Visibility="Hidden">
+
+		</Canvas>
+	</Grid>
+
+
 </Window>

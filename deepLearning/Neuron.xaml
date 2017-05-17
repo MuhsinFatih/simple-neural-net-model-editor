@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:deepLearning"
              mc:Ignorable="d" 
              d:DesignHeight="52" d:DesignWidth="52">
-    <Grid>
-        <Ellipse Stroke="Black" Fill="White" StrokeThickness="1"/>
-    </Grid>
+	<Ellipse x:Name="ellipse" Stroke="Black" Fill="White" StrokeThickness="1"/>
+    
 </UserControl>
