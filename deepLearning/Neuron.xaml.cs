@@ -20,6 +20,9 @@ namespace deepLearning {
     public partial class Neuron : UserControl {
 		
 		public double val = 0;
+		// input links
+
+		public List<Link> links = new List<Link>();
 
         public Neuron() {
             InitializeComponent();
@@ -27,4 +30,8 @@ namespace deepLearning {
 
 	
     }
+	
+
+
+
 }

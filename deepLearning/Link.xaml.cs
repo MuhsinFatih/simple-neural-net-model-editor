@@ -20,12 +20,16 @@ namespace deepLearning
     /// </summary>
     public partial class Link : UserControl
     {
-		public double weight {
+		double weight;
+		public double Weight {
 			get {
 				return this.weight;
 			}
 			set {
-				border.BorderBrush = new SolidColorBrush(grayScale(value, -1, 1));
+				label_weight.Content = value.ToString();
+				Brush brush = new SolidColorBrush(grayScale(value, -1, 1));
+				border.BorderBrush = brush;
+				line.Stroke = brush;
 				this.weight = value;
 			}
 		}
@@ -38,6 +42,13 @@ namespace deepLearning
 		}
         public Link() {
             InitializeComponent();
+			this.MouseEnter += delegate {
+				border.Visibility = Visibility.Visible;
+			};
+			this.MouseLeave += delegate {
+				border.Visibility = Visibility.Hidden;
+			};
+			label_weight.Content = 0;
         }
 		public Link(Vector node1, Vector node2) : this(){
 			Connect(node1, node2);
@@ -64,9 +75,6 @@ namespace deepLearning
 
 			this.Width = Math.Sqrt(Math.Pow(w,2) + Math.Pow(h,2));
 		}
-
-		private void UserControl_MouseEnter(object sender, MouseEventArgs e) {
-			MessageBox.Show("it does!");
-		}
+		
 	}
 }

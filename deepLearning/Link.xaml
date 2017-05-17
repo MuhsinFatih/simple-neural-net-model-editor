@@ -4,25 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:deepLearning"
-             mc:Ignorable="d" d:DesignWidth="300" Height="40" RenderTransformOrigin="0,0.5" MouseEnter="UserControl_MouseEnter">
+             mc:Ignorable="d" d:DesignWidth="300" Height="40" RenderTransformOrigin="0,0.5" Background="Transparent">
 	<Canvas x:Name="canvas">
-		<Grid Width="{Binding Parent.ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}" >
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
-			<Border Grid.Column="0">
-				<Line x:Name="line_l" Stroke="Gray" StrokeThickness="3" X1="0" X2="{Binding Parent.ActualWidth, RelativeSource={RelativeSource Self}}" Y1="20" Y2="20"/>
+		<Line x:Name="line" Stroke="Gray" StrokeThickness="2" X1="0" X2="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" Y1="20" Y2="20"/>
+		<Grid Width="{Binding ActualWidth, ElementName=canvas}" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}">
+			<Border x:Name="border" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" Background="#FF4768B4">
+				<Label x:Name="label_weight" Content="Weight" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"/>
 			</Border>
-			<Border Grid.Column="2">
-				<Line x:Name="line_r" Stroke="Gray" StrokeThickness="3" X1="0" X2="{Binding Parent.ActualWidth, RelativeSource={RelativeSource Self}}" Y1="20" Y2="20"/>
-			</Border>
-			<Grid  Height="{Binding ActualHeight, ElementName=canvas}" Grid.Column="1">
-				<Border x:Name="border" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Gray" BorderThickness="2" CornerRadius="3" RenderTransformOrigin="0.5,0.5">
-					<Label x:Name="label_weight" Content="Weight" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" RenderTransformOrigin="0.5,0.5"/>
-				</Border>
-			</Grid>
 		</Grid>
 	</Canvas>
 </UserControl>
