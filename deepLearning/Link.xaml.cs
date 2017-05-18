@@ -40,6 +40,7 @@ namespace deepLearning
 			byte rgb = (byte)((val / upTo) * 255);
 			return Color.FromRgb(rgb, rgb, rgb);
 		}
+		public Neuron input;
         public Link() {
             InitializeComponent();
 			this.MouseEnter += delegate {
@@ -56,6 +57,9 @@ namespace deepLearning
 		}
 		public void Connect(Vector node1, Vector node2) {
 			Vector diff = node2 - node1;
+			if (diff.X < 0) {
+				MessageBox.Show("You cannot connect a neuron to a parent neuron!","Error",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+			}
 			double w = Math.Abs(diff.X),
 				h = Math.Abs(diff.Y);
 
@@ -63,11 +67,6 @@ namespace deepLearning
 			this.RenderTransform = new RotateTransform(angle);
 			border.RenderTransform = new RotateTransform(-angle);
 
-			if (diff.X < 0) {
-				Vector v = node1;
-				node1 = node2;
-				node2 = v;
-			}
 			
 			Canvas.SetLeft(this, node1.X);
 			Canvas.SetTop(this, node1.Y - this.Height / 2);

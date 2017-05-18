@@ -21,16 +21,43 @@ namespace deepLearning {
 		
 		public double val = 0;
 		// input links
-
+		public Function function;
 		public List<Link> links = new List<Link>();
 
         public Neuron() {
             InitializeComponent();
         }
 
+		public Neuron(Function function) : this() {
+			this.function = function;
+		}
+
+		public Neuron(double val) : this() {
+			this.val = val;
+		}
 	
+		public Neuron(Function function, double val) : this() {
+			this.function = function;
+			this.val = val;
+		}
+
+		public double output() {
+			switch (function) {
+				case Function.sigmoid:
+					return 2 / (1 + Math.Pow(Math.E, -2 * val)) - 1;
+				case Function.relu:
+					return 0;
+					break;
+				default:
+					return 0;
+			}
+		}
     }
 	
+	public enum Function {
+		sigmoid,
+		relu // rectified linear unit
+	}
 
 
 

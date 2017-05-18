@@ -137,7 +137,18 @@ namespace deepLearning {
             //    mainCanvas.Children.Add(line);
         }
 
-
+		// this is where the serious business is done
+		void approximate() {
+			for(int l=0; l<layers.Count; ++l) {
+				for(int n=0; n<layers[l].neurons.Count; ++n) {
+					var neuron = layers[l].neurons[n];
+					for (int i = 0; i < neuron.links.Count; ++i) {
+						var link = neuron.links[i];
+						neuron.val += link.Weight * link.input.val;
+					}
+				}
+			}
+		}
 
     }
 
