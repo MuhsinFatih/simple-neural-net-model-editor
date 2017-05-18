@@ -46,8 +46,7 @@ namespace deepLearning {
 				case Function.sigmoid:
 					return 2 / (1 + Math.Pow(Math.E, -2 * val)) - 1;
 				case Function.relu:
-					return 0;
-					break;
+					return (val > 0 ? val : 0);
 				default:
 					return 0;
 			}
