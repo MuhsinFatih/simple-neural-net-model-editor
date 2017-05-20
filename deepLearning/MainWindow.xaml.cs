@@ -56,8 +56,8 @@ namespace deepLearning {
 		}
 
 		private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e) {
-            offset["grid_layers"] = getVector(of: grid_layers, relativeTo: mainCanvas);
-            offset["layer0"] = getVector(of: grid_layer0, relativeTo: mainCanvas); // input visual representation layer
+            offset["demoLayers"] = getVector(of: demoLayers, relativeTo: mainCanvas);
+            offset["demoInputLayer"] = getVector(of: demoInputLayer, relativeTo: mainCanvas); // input visual representation layer
             offset["inputRect"] = getVector(of: inputRect, relativeTo: mainCanvas); // input visual representation rectangle (the pixels)
 			
             offset["layer1"] = getVector(of: grid_layer1, relativeTo: mainCanvas); // input layer
@@ -95,66 +95,50 @@ namespace deepLearning {
 
 		public void main(object sender, EventArgs e) {
 
+			
+
+			
+		}
+
+
+
+		void demo() {
+			demoInputLayer.Visibility = Visibility.Visible;
+			grid_layers.Visibility = Visibility.Hidden;
+			demoLayers.Visibility = Visibility.Visible;
+
 			demoInput.Add(p1); demoInput.Add(p2); demoInput.Add(p3); demoInput.Add(p4);
-			foreach (UniformGrid item in grid_layers.Children) {
+			foreach (UniformGrid item in demoLayers.Children) {
 				layers.Add(new Layer(item.Name, item));
 			}
 
 
-			
+
 
 			offset["p1"] = getVector(of: p1, relativeTo: mainCanvas);
 			offset["p2"] = getVector(of: p2, relativeTo: mainCanvas);
 			offset["p3"] = getVector(of: p3, relativeTo: mainCanvas);
 			offset["p4"] = getVector(of: p4, relativeTo: mainCanvas);
 
-			Link link = new Link(getVector(p1, new Point(p1.ActualWidth / 2, 0)), getVector(of: layers[0].neurons[0]),1);
+			Link link = new Link(getVector(p1, new Point(p1.ActualWidth / 2, 0)), getVector(of: layers[0].neurons[0]), 1);
 			addLink(link, to: layers[0].neurons[0], drawOn: mainCanvas);
-			
-			Link link1 = new Link(getVector(p2, new Point(p2.ActualWidth / 2, p2.ActualHeight / 2)), getVector(of: layers[0].neurons[1]),1);
+
+			Link link1 = new Link(getVector(p2, new Point(p2.ActualWidth / 2, p2.ActualHeight / 2)), getVector(of: layers[0].neurons[1]), 1);
 			addLink(link1, to: layers[0].neurons[1], drawOn: mainCanvas);
 
-			Link link2 = new Link(getVector(p3, new Point(p3.ActualWidth / 2, p3.ActualHeight / 2)), getVector(of: layers[0].neurons[2]),1);
+			Link link2 = new Link(getVector(p3, new Point(p3.ActualWidth / 2, p3.ActualHeight / 2)), getVector(of: layers[0].neurons[2]), 1);
 			addLink(link2, to: layers[0].neurons[2], drawOn: mainCanvas);
 
-			Link link3 = new Link(getVector(p4, new Point(p4.ActualWidth / 2, p4.ActualHeight)), getVector(of: layers[0].neurons[3]),1);
+			Link link3 = new Link(getVector(p4, new Point(p4.ActualWidth / 2, p4.ActualHeight)), getVector(of: layers[0].neurons[3]), 1);
 			addLink(link3, to: layers[0].neurons[3], drawOn: mainCanvas);
 
 
 
-			
-
-
-
-
-			//for (int i = 0; i < layers[0].neurons.Count; ++i) {
-			//	Link link = new Link(getVector(input[i], new Point(input[i].ActualWidth / 2, input[i].ActualHeight / 2)), getVector(of: layers[0].neurons[i]));
-			//	layers[0].neurons[i].links.Add(link);
-			//	mainCanvas.Children.Add(link);
-			//}
-
-
-
-			//mainCanvas.Children.Add(new Link(getVector(input[0], new Point(input[0].ActualWidth / 2, input[0].ActualHeight / 2)), getVector(layers[0].neurons[0])));
-
-
-
-
-			//    Vector relativePoint = (Vector)n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
-			//    Point relativePoint2 = n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
-
-			//    Console.WriteLine("relativePoint = {0}", relativePoint);
-
-			//    Line line = new Line() {
-			//        Stroke = Brushes.Black,
-			//        StrokeThickness = 2,
-			//        X1 = 0,
-			//        Y1 = 0,
-			//        X2 = relativePoint.X,
-			//        Y2 = relativePoint.Y
-			//    };
-			//    mainCanvas.Children.Add(line);
 		}
+
+
+
+
 
 		// this is where the serious business is done
 		void approximate() {
@@ -168,10 +152,10 @@ namespace deepLearning {
 				}
 			}
 		}
-
+        
     }
 
-	struct Layer {
+    struct Layer {
 		public string name;
 		public List<Neuron> neurons;
 		public UniformGrid grid;
@@ -184,6 +168,7 @@ namespace deepLearning {
 			}
 		}
 	}
+    
 
 	//class Neuron : Border{
 	//    public double weight;

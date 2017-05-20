@@ -1,72 +1,195 @@
 ﻿<Window x:Class="deepLearning.MainWindow"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:deepLearning"
         mc:Ignorable="d"
 		ResizeMode="NoResize"
-        Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4">
-	<Grid>
+        Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4" Icon="Empty.png">
+    <Grid>
 
-		<Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged">
+        <Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged">
+            <Grid x:Name="demoInputLayer" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Hidden">
+                <Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
+                    <UniformGrid  Width="140" Height="140"   Rows="2">
+                        <UniformGrid Grid.Row="1" Columns="2" >
+                            <Rectangle x:Name="p1" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
+                            <Rectangle x:Name="p2" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
+                        </UniformGrid>
+                        <UniformGrid Grid.Row="2" Columns="2">
+                            <Rectangle x:Name="p4" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
+                            <Rectangle x:Name="p3" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
+                        </UniformGrid>
+                    </UniformGrid>
+                </Border>
+            </Grid>
+            <Grid Width="{Binding Parent.ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="230"/>
+                </Grid.ColumnDefinitions>
+                <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0"/>
+                <StackPanel Orientation="Vertical" Background="#FFD8D8D8" Grid.Column="1">
+                    <Label Content="Edit" FontSize="20" Foreground="#FF151515" Padding="20,10,10,10" Background="#19000000" FontWeight="Light"/>
+                    <Border BorderThickness="0,0,3,0" Background="#4CC8C8C8" Margin="0,10,0,0">
+                        <UniformGrid Rows="1">
+                            <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13">Selected:</Label>
+                            <Label x:Name="label_selected"></Label>
+                        </UniformGrid>
+                    </Border>
+                    <Border BorderBrush="#FFFF7474" BorderThickness="0,0,3,0" Background="#4CC8C8C8" Margin="0,10,0,0">
+                        <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13">Layers</Label>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Grid.ColumnSpan="2" Margin="0,0,115,0" Grid.RowSpan="2">
+                                <Grid HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
+                                        <Viewbox.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                                            </TransformGroup>
+                                        </Viewbox.RenderTransform>
+                                        <Canvas Width="24" Height="24">
+                                            <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Fill="#FF3A8B2C" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <Label Grid.Column="1" Margin="0">Add</Label>
+                                </Grid>
+                            </Button>
+                            <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Margin="0.333,0,0,0" Grid.RowSpan="2">
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
+                                    <Viewbox.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                                        </TransformGroup>
+                                    </Viewbox.RenderTransform>
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M19,13H5V11H19V13Z" Fill="#FF8B2C2C" />
+                                    </Canvas>
+                                </Viewbox>
+                                <Label Grid.Column="1" Margin="0">Remove</Label>
+                            </Grid>
+                        </Button>
+                        </Grid>
+                    </Grid>
+                    </Border>
+                    <Border BorderBrush="#FF47B1FF" BorderThickness="0,0,3,0" Margin="0,10,0,0" Background="#4CC8C8C8">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
 
-			<Grid x:Name="grid_layer0" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1">
-				<Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
-					<UniformGrid  Width="140" Height="140"   Rows="2">
-						<UniformGrid Grid.Row="1" Columns="2" >
-							<Rectangle x:Name="p1" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
-							<Rectangle x:Name="p2" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
-						</UniformGrid>
-						<UniformGrid Grid.Row="2" Columns="2">
-							<Rectangle x:Name="p4" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="1"/>
-							<Rectangle x:Name="p3" Fill="#FFF4F4F5" Stroke="Black" Grid.Column="2"/>
-						</UniformGrid>
-					</UniformGrid>
-				</Border>
-			</Grid>
-			<UniformGrid x:Name="grid_layers" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight,ElementName=mainCanvas}" Panel.ZIndex="1">
-				<UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-				</UniformGrid>
-				<UniformGrid x:Name="grid_layer2" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-				</UniformGrid>
-				<UniformGrid x:Name="grid_layer3" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+                            <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13">Neurons</Label>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50*"/>
+                                    <ColumnDefinition Width="50*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Grid.ColumnSpan="2" Margin="0,0,115,0" Grid.RowSpan="2">
+                                    <Grid HorizontalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.3*"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
+                                            <Viewbox.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                                                </TransformGroup>
+                                            </Viewbox.RenderTransform>
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Fill="#FF3A8B2C" />
+                                            </Canvas>
+                                        </Viewbox>
+                                        <Label Grid.Column="1" Margin="0">Add</Label>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Margin="0.333,0,0,0" Grid.RowSpan="2">
+                                    <Grid HorizontalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.3*"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
+                                            <Viewbox.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                                                </TransformGroup>
+                                            </Viewbox.RenderTransform>
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M19,13H5V11H19V13Z" Fill="#FF8B2C2C" />
+                                            </Canvas>
+                                        </Viewbox>
+                                        <Label Grid.Column="1" Margin="0">Remove</Label>
+                                    </Grid>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+                <UniformGrid x:Name="demoLayers" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1">
+                    <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                    </UniformGrid>
+                    <UniformGrid x:Name="grid_layer2" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                    </UniformGrid>
+                    <UniformGrid x:Name="grid_layer3" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
 
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-				</UniformGrid>
-				<UniformGrid x:Name="grid_layer4" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-					<local:Neuron Height="52" Width="52"/>
-				</UniformGrid>
-			</UniformGrid>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                    </UniformGrid>
+                    <UniformGrid x:Name="grid_layer4" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                        <local:Neuron Height="52" Width="52"/>
+                    </UniformGrid>
+                </UniformGrid>
+            </Grid>
 
 
 
 
 
-
-		</Canvas>
-		<Canvas Visibility="Hidden">
-
-		</Canvas>
-	</Grid>
+        </Canvas>
+        <Canvas Visibility="Hidden"/>
+    </Grid>
 
 
 </Window>
