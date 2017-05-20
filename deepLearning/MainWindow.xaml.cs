@@ -74,38 +74,57 @@ namespace deepLearning {
             }
         }
 
-		List<Rectangle> input = new List<Rectangle>();
+		void addLink(Link link, Neuron to, Canvas drawOn) {
+			to.links.Add(link);
+			if (drawOn != null) {
+				try {
+					drawOn.Children.Add(link);
+				}
+				catch (Exception e) {
+					if(e.HResult != -2147024809) {
+						MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+					// else: canvas already has the child. No need to add it again
+				}
+
+			}
+		}
+
+		List<Rectangle> demoInput = new List<Rectangle>();
 		List<Layer> layers = new List<Layer>();
 
 		public void main(object sender, EventArgs e) {
 
-			input.Add(p1); input.Add(p2); input.Add(p3); input.Add(p4);
+			demoInput.Add(p1); demoInput.Add(p2); demoInput.Add(p3); demoInput.Add(p4);
 			foreach (UniformGrid item in grid_layers.Children) {
 				layers.Add(new Layer(item.Name, item));
 			}
 
+
+			
 
 			offset["p1"] = getVector(of: p1, relativeTo: mainCanvas);
 			offset["p2"] = getVector(of: p2, relativeTo: mainCanvas);
 			offset["p3"] = getVector(of: p3, relativeTo: mainCanvas);
 			offset["p4"] = getVector(of: p4, relativeTo: mainCanvas);
 
-			Link link = new Link(getVector(p1, new Point(p1.ActualWidth / 2, 0)), getVector(of: layers[0].neurons[0]));
-			layers[0].neurons[0].links.Add(link);
+			Link link = new Link(getVector(p1, new Point(p1.ActualWidth / 2, 0)), getVector(of: layers[0].neurons[0]),1);
+			addLink(link, to: layers[0].neurons[0], drawOn: mainCanvas);
 			
-			Link link1 = new Link(getVector(p2, new Point(p2.ActualWidth / 2, p2.ActualHeight / 2)), getVector(of: layers[0].neurons[1]));
-			layers[0].neurons[1].links.Add(link1);
+			Link link1 = new Link(getVector(p2, new Point(p2.ActualWidth / 2, p2.ActualHeight / 2)), getVector(of: layers[0].neurons[1]),1);
+			addLink(link1, to: layers[0].neurons[1], drawOn: mainCanvas);
 
-			Link link2 = new Link(getVector(p3, new Point(p3.ActualWidth / 2, p3.ActualHeight / 2)), getVector(of: layers[0].neurons[2]));
-			layers[0].neurons[2].links.Add(link2);
+			Link link2 = new Link(getVector(p3, new Point(p3.ActualWidth / 2, p3.ActualHeight / 2)), getVector(of: layers[0].neurons[2]),1);
+			addLink(link2, to: layers[0].neurons[2], drawOn: mainCanvas);
 
-			Link link3 = new Link(getVector(p4, new Point(p4.ActualWidth / 2, p4.ActualHeight)), getVector(of: layers[0].neurons[3]));
-			layers[0].neurons[3].links.Add(link3);
+			Link link3 = new Link(getVector(p4, new Point(p4.ActualWidth / 2, p4.ActualHeight)), getVector(of: layers[0].neurons[3]),1);
+			addLink(link3, to: layers[0].neurons[3], drawOn: mainCanvas);
 
-			mainCanvas.Children.Add(link);
-			mainCanvas.Children.Add(link1);
-			mainCanvas.Children.Add(link2);
-			mainCanvas.Children.Add(link3);
+
+
+			
+
+
 
 
 			//for (int i = 0; i < layers[0].neurons.Count; ++i) {
@@ -121,21 +140,21 @@ namespace deepLearning {
 
 
 
-            //    Vector relativePoint = (Vector)n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
-            //    Point relativePoint2 = n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
+			//    Vector relativePoint = (Vector)n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
+			//    Point relativePoint2 = n1.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
 
-            //    Console.WriteLine("relativePoint = {0}", relativePoint);
+			//    Console.WriteLine("relativePoint = {0}", relativePoint);
 
-            //    Line line = new Line() {
-            //        Stroke = Brushes.Black,
-            //        StrokeThickness = 2,
-            //        X1 = 0,
-            //        Y1 = 0,
-            //        X2 = relativePoint.X,
-            //        Y2 = relativePoint.Y
-            //    };
-            //    mainCanvas.Children.Add(line);
-        }
+			//    Line line = new Line() {
+			//        Stroke = Brushes.Black,
+			//        StrokeThickness = 2,
+			//        X1 = 0,
+			//        Y1 = 0,
+			//        X2 = relativePoint.X,
+			//        Y2 = relativePoint.Y
+			//    };
+			//    mainCanvas.Children.Add(line);
+		}
 
 		// this is where the serious business is done
 		void approximate() {

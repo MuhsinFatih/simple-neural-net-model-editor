@@ -58,6 +58,6 @@ namespace deepLearning {
 		relu // rectified linear unit
 	}
 
-
+	
 
 }

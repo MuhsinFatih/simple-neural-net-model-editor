@@ -34,13 +34,16 @@ namespace deepLearning
 			}
 		}
 		private Color grayScale(double val, double from, double upTo) {
-			from = 0;
 			upTo -= from;
 			val -= from;
+			from = 0;
 			byte rgb = (byte)((val / upTo) * 255);
 			return Color.FromRgb(rgb, rgb, rgb);
 		}
+
 		public Neuron input;
+
+#region constructors
         public Link() {
             InitializeComponent();
 			this.MouseEnter += delegate {
@@ -49,12 +52,22 @@ namespace deepLearning
 			this.MouseLeave += delegate {
 				border.Visibility = Visibility.Hidden;
 			};
-			label_weight.Content = 0;
+			
         }
+		public Link(double weight) : this() {
+			this.Weight = weight;
+		}
 		public Link(Vector node1, Vector node2) : this(){
 			Connect(node1, node2);
-
+			this.Weight = 0;
 		}
+		public Link(Vector node1, Vector node2, double weight) : this() {
+			Connect(node1, node2);
+			this.Weight = weight;
+		}
+
+		#endregion
+
 		public void Connect(Vector node1, Vector node2) {
 			Vector diff = node2 - node1;
 			if (diff.X < 0) {
