@@ -152,7 +152,29 @@ namespace deepLearning {
 				}
 			}
 		}
-        
+
+
+#region UI buttons
+
+        private void btn_addLayer_Click(object sender, RoutedEventArgs e) {
+            layers_menu.Visibility = Visibility.Visible;
+        }
+
+        private void btn_removeLayer_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void btn_addNeuron_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void btn_removeNeuron_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+#endregion
+
+
     }
 
     struct Layer {
