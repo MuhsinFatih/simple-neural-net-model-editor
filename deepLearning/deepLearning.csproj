@@ -71,9 +71,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UI_addLayer.xaml.cs">
-      <DependentUpon>UI_addLayer.xaml</DependentUpon>
-    </Compile>
     <Page Include="Link.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,10 +91,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Neuron.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI_addLayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
