@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
-
 namespace deepLearning {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,7 +24,6 @@ namespace deepLearning {
             InitializeComponent();
             this.ContentRendered += main;
         }
-
 
         
         int pixelSize = 70;
@@ -82,7 +80,7 @@ namespace deepLearning {
 				}
 				catch (Exception e) {
 					if(e.HResult != -2147024809) {
-						MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        System.Windows.MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 					// else: canvas already has the child. No need to add it again
 				}
@@ -94,10 +92,7 @@ namespace deepLearning {
 		List<Layer> layers = new List<Layer>();
 
 		public void main(object sender, EventArgs e) {
-
-			
-
-			
+            
 		}
 
 
@@ -109,7 +104,7 @@ namespace deepLearning {
 
 			demoInput.Add(p1); demoInput.Add(p2); demoInput.Add(p3); demoInput.Add(p4);
 			foreach (UniformGrid item in demoLayers.Children) {
-				layers.Add(new Layer(item.Name, item));
+				//layers.Add(new Layer(item.Name, item));
 			}
 
 
@@ -157,13 +152,13 @@ namespace deepLearning {
 #region UI buttons
 
         private void btn_addLayer_Click(object sender, RoutedEventArgs e) {
-            
+            grid_addLayer.Visibility = Visibility.Visible;
         }
 
         private void btn_removeLayer_Click(object sender, RoutedEventArgs e) {
-
+            grid_addLayer.Visibility = Visibility.Collapsed;
         }
-
+        /*
         private void btn_addNeuron_Click(object sender, RoutedEventArgs e) {
 
         }
@@ -171,34 +166,38 @@ namespace deepLearning {
         private void btn_removeNeuron_Click(object sender, RoutedEventArgs e) {
 
         }
-
+        */
         private void btn_addLayerDone_Click(object sender, RoutedEventArgs e)
         {
+            var layer = new Layer();
 
+            int ic;
+            if (!int.TryParse(txt_neuronCount.Text, out ic)) {
+                MessageBox.Show("Please enter the number of neurons you want this layer to have","Error",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+
+            for (int i=0;i<ic; ++i) {
+                layer.Content.Children.Add(new Neuron() { Width = 52, Height = 52});
+            }
+            grid_layers.Children.Add(layer);
+            layerList.Items.Add(new ListBoxItem() { Content = txt_layerName.Text});
         }
 
         private void btn_addLayerCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            grid_addLayer.Visibility = Visibility.Collapsed;
         }
 
 #endregion
 
+        private void NumericOnly(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.IsInteger();
+        }
     }
 
-    struct Layer {
-		public string name;
-		public List<Neuron> neurons;
-		public UniformGrid grid;
-		public Layer(string name, UniformGrid grid) {
-			this.name = name;
-			neurons = new List<Neuron>();
-			this.grid = grid;
-			foreach (Neuron item in grid.Children) {
-				neurons.Add(item);
-			}
-		}
-	}
+
     
 
 	//class Neuron : Border{
