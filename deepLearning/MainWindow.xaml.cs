@@ -159,6 +159,13 @@ namespace deepLearning {
 
         private void btn_removeLayer_Click(object sender, RoutedEventArgs e) {
             grid_addLayer.Visibility = Visibility.Collapsed;
+            if(selectedLayerIndex == -1) {
+                warn("Select a layer to remove first");
+            } else {
+                layers.Remove(selectedLayer);
+                grid_layers.Children.Remove(selectedLayer);
+                layerList.Items.RemoveAt(selectedLayerIndex);
+            }
         }
         /*
         private void btn_addNeuron_Click(object sender, RoutedEventArgs e) {
@@ -226,12 +233,16 @@ namespace deepLearning {
                 }
             }
             label_selected.Content = selectedLayer.Name;
+            layer_menu.Visibility = Visibility.Visible;
+
             layerList.SelectedIndex = selectedLayerIndex;
         }
-
+        bool layerListMouseUp = true;
         private void layerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            layerListMouseUp = false;
+            if (layerList.SelectedValue == null)
+                return;
             selectedLayerIndex = layerList.SelectedIndex;
             for (int i = 0; i < layers.Count; ++i) {
                 if (layers[i].Name == (string)(layerList.SelectedItem as ListBoxItem).Content) {
@@ -242,9 +253,26 @@ namespace deepLearning {
             label_selected.Content = selectedLayer.Name;
         }
 
+        private void layerList_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!layerListMouseUp) {
+                layer_menu.Visibility = Visibility.Visible;
+                layerListMouseUp = true;
+            }
+        }
+
+
         private void btn_addLayerCancel_Click(object sender, RoutedEventArgs e)
         {
             grid_addLayer.Visibility = Visibility.Collapsed;
+        }
+
+        private void btn_deselectLayer_Click(object sender, RoutedEventArgs e)
+        {
+            layerList.UnselectAll();
+            label_selected.Content = "None";
+            selectedLayerIndex = -1;
+            layer_menu.Visibility = Visibility.Collapsed;
         }
 
 #endregion
@@ -253,7 +281,7 @@ namespace deepLearning {
         {
             e.Handled = !e.Text.IsInteger();
         }
-
+        
     }
 
 

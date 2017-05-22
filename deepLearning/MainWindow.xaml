@@ -82,26 +82,31 @@
                                     <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="13" Content="Selected:"/>
                                     <Label x:Name="label_selected" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="None"/>
                                 </UniformGrid>
-                                <Border BorderThickness="0,1" BorderBrush="#4C393939" Visibility="Collapsed">
-                                    <Button x:Name="btn_removeLayer" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Margin="0">
-                                        <Grid HorizontalAlignment="Center">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="0.3*"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
-                                                <Viewbox.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                                                    </TransformGroup>
-                                                </Viewbox.RenderTransform>
-                                                <Canvas Width="24" Height="24">
-                                                    <Path Data="M19,13H5V11H19V13Z" Fill="#FF8B2C2C" />
-                                                </Canvas>
-                                            </Viewbox>
-                                            <Label Grid.Column="1" Margin="0" Content="Remove"/>
-                                        </Grid>
-                                    </Button>
+                                <Border x:Name="layer_menu" BorderThickness="0,1" BorderBrush="#4C393939" Visibility="Visible">
+                                    <UniformGrid Rows="1">
+                                        <Button x:Name="btn_removeLayer" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Margin="0" Click="btn_removeLayer_Click">
+                                            <Grid HorizontalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.3*"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
+                                                    <Viewbox.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                                                        </TransformGroup>
+                                                    </Viewbox.RenderTransform>
+                                                    <Canvas Width="24" Height="24">
+                                                        <Path Data="M19,13H5V11H19V13Z" Fill="#FF8B2C2C" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                                <Label Grid.Column="1" Margin="0" Content="Remove"/>
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="btn_deselectLayer" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}"  Padding="0" Background="{x:Null}" Margin="0" Click="btn_deselectLayer_Click">
+                                            Deselect
+                                        </Button>
+                                    </UniformGrid>
                                 </Border>
                             </StackPanel>
                         </Border>
@@ -110,7 +115,7 @@
                                 <StackPanel>
 
                                     <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13">Layers</Label>
-                                    <ListBox x:Name="layerList" MaxHeight="100" FontSize="12" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderBrush="#FFC2C2C2" BorderThickness="0,1" SelectionChanged="layerList_SelectionChanged" >
+                                    <ListBox x:Name="layerList" MaxHeight="100" FontSize="12" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderBrush="#FFC2C2C2" BorderThickness="0,1" SelectionChanged="layerList_SelectionChanged" MouseUp="layerList_MouseUp" >
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ResourceKey={x:Type ListBoxItem}}">
                                                 <Setter Property="Padding" Value="4"/>
