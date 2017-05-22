@@ -180,7 +180,8 @@ namespace deepLearning {
         Layer selectedLayer;
         int selectedLayerIndex;
 
-        void selectNeuron(object sender, EventArgs e) {
+        void selectNeuron(object sender, MouseButtonEventArgs e) {
+            e.Handled = true;
             ((Neuron)sender).ellipse.Fill = new SolidColorBrush(Colors.Tomato);
         }
 
@@ -219,6 +220,7 @@ namespace deepLearning {
                 }
                 layer.Name = txt_layerName.Text;
             }
+
             layer.Content.PreviewMouseUp += selectLayer;
 
 
@@ -227,9 +229,14 @@ namespace deepLearning {
             layerList.Items.Add(new ListBoxItem() { Content = layer.Name});
             layers.Add(layer);
         }
-
+        void deselectPrevious() {
+            if (selectedLayer == null) return;
+            selectedLayer.selected = false;
+            selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
+        }
         void selectLayer (object sender, EventArgs e)
         {
+            deselectPrevious();
             Layer layer = (Layer)(((sender as UniformGrid).Parent as Grid).Parent);
             selectedLayer = layer;
             for(int i=0; i<layers.Count; ++i) {
@@ -242,10 +249,13 @@ namespace deepLearning {
             layer_menu.Visibility = Visibility.Visible;
 
             layerList.SelectedIndex = selectedLayerIndex;
+            layer.selected = true;
+            layer.Content.Background = new SolidColorBrush(Color.FromArgb(25, 0, 0, 0));
         }
         bool layerListMouseUp = true;
         private void layerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            deselectPrevious();
             layerListMouseUp = false;
             if (layerList.SelectedValue == null)
                 return;
@@ -257,6 +267,8 @@ namespace deepLearning {
                 }
             }
             label_selected.Content = selectedLayer.Name;
+            selectedLayer.selected = true;
+            selectedLayer.Content.Background = new SolidColorBrush(Color.FromArgb(25, 0, 0, 0));
         }
 
         private void layerList_MouseUp(object sender, MouseButtonEventArgs e)

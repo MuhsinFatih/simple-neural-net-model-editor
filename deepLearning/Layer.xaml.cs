@@ -32,15 +32,19 @@ namespace deepLearning
             }
         }
 
+        public bool selected = false;
+
         public List<Neuron> neurons;
         public Layer()
         {
             InitializeComponent();
             Content.MouseEnter += delegate {
-                Content.Background = new SolidColorBrush(Color.FromArgb(25, 0, 0, 0));
+                if(!selected)
+                    Content.Background = new SolidColorBrush(Color.FromArgb(10, 0, 0, 0));
             };
             Content.MouseLeave += delegate {
-                Content.Background = new SolidColorBrush(Colors.Transparent);
+                if(!selected)
+                    Content.Background = new SolidColorBrush(Colors.Transparent);
             };
         }
 		public Layer(string name) : base(){
