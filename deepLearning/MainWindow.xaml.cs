@@ -185,21 +185,23 @@ namespace deepLearning {
                 layer.Content.Children.Add(new Neuron() { Width = 52, Height = 52});
             }
             grid_layers.Children.Add(layer);
-            string layername = "";
             if (txt_layerName.Text.ToLower() == "auto" || txt_layerName.Text == "") {
-                int biggest = 0;
+                int biggest = -1;
                 for(int i=layers.Count - 1;i>=0;--i) {
-                    if (layers[i].Name.StartsWith("layer ") && layers[i].Name.Length > 6 && layers[i].Name[6].ToString().IsInteger())
-                        biggest = int.Parse(layers[i].Name[6].ToString());
+                    if (layers[i].Name.StartsWith("layer ") && layers[i].Name.Length > 6 && layers[i].Name[6].ToString().IsInteger()) {
+                        int a = int.Parse(layers[i].Name[6].ToString());
+                        if (a > biggest)
+                            biggest = a;
+                    }
                 }
-                layername = "layer " + biggest + 1;
+                layer.Name = "layer " + (biggest + 1);
             }
             else
-                layername = txt_layerName.Text;
-
+                layer.Name = txt_layerName.Text;
+            
             layer.Content.MouseDown += selectLayer;
 
-            layerList.Items.Add(new ListBoxItem() { Content = layername});
+            layerList.Items.Add(new ListBoxItem() { Content = layer.Name});
             layers.Add(layer);
         }
 

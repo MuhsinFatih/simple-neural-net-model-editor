@@ -12,11 +12,9 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Viewbox>
-            <Label x:Name="label_layerName" Background="#FFBFBFBF">Layer name</Label>
+            <Label x:Name="label_layerName" Background="#7FBFBFBF" Padding="5,15,5,5">Layer name</Label>
         </Viewbox>
-        <Viewbox Grid.Row="1">
-            <UniformGrid x:Name="Content" HorizontalAlignment="Center" Margin="0,0,0,30" Width="83" Columns="1" Grid.Row="1" Background="Transparent">
-            </UniformGrid>
-        </Viewbox>
+        <UniformGrid x:Name="Content" Width="83" Columns="1" Background="Transparent" Grid.Row="1">
+        </UniformGrid>
     </Grid>
 </UserControl>
