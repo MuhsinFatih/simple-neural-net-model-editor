@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Text.RegularExpressions;
 namespace deepLearning
 {
     /// <summary>
@@ -33,8 +33,20 @@ namespace deepLearning
 				this.weight = value;
 			}
 		}
+        private void setWeight(string value) {
+            Regex r = new Regex(@"^(\-?[\d\.]*)$");
+            if (r.IsMatch(value)) {
+                this.Weight = double.Parse(value);
+            } else {
+                MessageBox.Show("weight must be a number!");
+                label_weight.Text = this.Weight.ToString();
+            }
+        }
+
 		private Color grayScale(double val, double from, double upTo) {
-			upTo -= from;
+            if (val < from) return Colors.Black;
+            if (val > upTo) return Colors.White;
+            upTo -= from;
 			val -= from;
 			from = 0;
 			byte rgb = (byte)((val / upTo) * 255);
@@ -51,7 +63,8 @@ namespace deepLearning
                 line.StrokeThickness = 2;
 			};
 			this.MouseLeave += delegate {
-				border.Visibility = Visibility.Hidden;
+                if(!label_weight.IsFocused)
+				    border.Visibility = Visibility.Hidden;
                 line.StrokeThickness = 1;
             };
 			
@@ -94,13 +107,32 @@ namespace deepLearning
         {
             e.Handled = true;
             (sender as TextBox).SelectAll();
+            border.Background = new SolidColorBrush(Color.FromRgb(57, 84, 145));
+        }
+
+        private void label_weight_LostFocus(object sender, RoutedEventArgs e)
+        {
+            border.Background = Brushes.Transparent;
+            border.Visibility = Visibility.Hidden;
+            setWeight(label_weight.Text);
         }
 
         private void label_weight_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter) {
+            if(e.Key == Key.Enter || e.Key == Key.Escape) {
                 Keyboard.ClearFocus();
+                setWeight(label_weight.Text);
             }
+        }
+
+        private void mouseHitArea_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            label_weight.Focus();
+        }
+
+        private void label_weight_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !(e.Text.IsInteger() || e.Text == "." || e.Text == "-");
         }
     }
 }

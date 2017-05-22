@@ -34,7 +34,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="230"/>
                 </Grid.ColumnDefinitions>
-                <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0" MouseDown="grid_layers_MouseDown"/>
+                <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0" MouseDown="emptySpace_MouseDown"/>
                 <UniformGrid x:Name="demoLayers" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Collapsed">
                     <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
                         <local:Neuron Height="52" Width="52"/>

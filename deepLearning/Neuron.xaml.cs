@@ -51,9 +51,14 @@ namespace deepLearning {
 					return 0;
 			}
 		}
+
+        private void ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ellipse.Focus();
+        }
     }
-	
-	public enum Function {
+
+    public enum Function {
 		sigmoid,
 		relu // rectified linear unit
 	}

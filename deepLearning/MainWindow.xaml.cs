@@ -240,38 +240,41 @@ namespace deepLearning {
             Neuron neuron = (sender as Ellipse).Parent as Neuron;
             ((Ellipse)sender).Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFBF7272"));
             if (selectedNeuron[0] == null) {
+                deselectPrevious(false);
                 selectedNeuron[0] = neuron;
-            } else if (selectedNeuron[0] != null) {
-                selectedNeuron[1] = neuron;
-                var n0i = layers.IndexOf(selectedNeuron[0].parentLayer);
+            } else {
+                Neuron[] neurons = {
+                    selectedNeuron[0],
+                    selectedNeuron[1]
+                };
+                deselectPrevious();
+                neurons[1] = neuron;
+                var n0i = layers.IndexOf(neurons[0].parentLayer);
                 var n1i = layers.IndexOf(neuron.parentLayer);
                 Link link;
                 if (n1i > n0i)
-                    link = new Link(getVector(of: selectedNeuron[0]), getVector(of: neuron));
+                    link = new Link(getVector(of: neurons[0]), getVector(of: neuron));
                 else if (n1i < n0i)
-                    link = new Link(getVector(of: neuron), getVector(of: selectedNeuron[0]));
+                    link = new Link(getVector(of: neuron), getVector(of: neurons[0]));
                 else {
                     warn("You cannot connect two neurons at same layer!");
-                    deselectPrevious();
                     return;
                 }
                 addLink(link, to: neuron, drawOn: mainCanvas);
                 selected = Selected.neuron;
-                deselectPrevious();
             };
         }
 
-        void deselectPrevious() {
-            if (selectedLayer == null) return;
-            selectedLayer.selected = false;
-            selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
-            if(selected == Selected.neuron && selectedNeuron[0] != null) {
-                selectedNeuron[0].ellipse.Fill = Brushes.White;
-            } else if (selectedNeuron[0] != null)
-                selectedNeuron[0].ellipse.Fill = Brushes.White;
-
-            if (selectedNeuron[1] != null) selectedNeuron[1].ellipse.Fill = Brushes.White;
-            selectedNeuron = new Neuron[2];
+        void deselectPrevious(bool deselectNeurons = true) {
+            if (selectedLayer != null) {
+                selectedLayer.selected = false;
+                selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            if (deselectNeurons) {
+                if (selectedNeuron[0] != null) selectedNeuron[0].ellipse.Fill = Brushes.White;
+                if (selectedNeuron[1] != null) selectedNeuron[1].ellipse.Fill = Brushes.White;
+                selectedNeuron = new Neuron[2];
+            }
         }
         void selectLayer (object sender, MouseButtonEventArgs e)
         {
@@ -340,6 +343,7 @@ namespace deepLearning {
         {
             e.Handled = !e.Text.IsInteger();
         }
+        
 
         private void emptySpace_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -347,7 +351,6 @@ namespace deepLearning {
                 Keyboard.ClearFocus();
             }
         }
-        
     }
 
 
