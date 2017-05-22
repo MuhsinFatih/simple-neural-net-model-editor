@@ -21,18 +21,34 @@ namespace deepLearning
     /// </summary>
     public partial class Layer : UserControl
     {
-        public string name;
-		public List<Neuron> neurons;
-		public Layer(string name) {
+        string name = "layer name";
+        public string Name {
+            get {
+                return name;
+            }
+            set {
+                name = value;
+                label_layerName.Content = value;
+            }
+        }
+
+        public List<Neuron> neurons;
+        public Layer()
+        {
+            InitializeComponent();
+            Content.MouseEnter += delegate {
+                Content.Background = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+            };
+            Content.MouseLeave += delegate {
+                Content.Background = new SolidColorBrush(Colors.Transparent);
+            };
+        }
+		public Layer(string name) : base(){
 			this.name = name;
 			neurons = new List<Neuron>();
 			foreach (Neuron item in Content.Children) {
 				neurons.Add(item);
 			}
 		}
-        public Layer()
-        {
-            InitializeComponent();
-        }
     }
 }

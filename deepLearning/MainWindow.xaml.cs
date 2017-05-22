@@ -167,6 +167,10 @@ namespace deepLearning {
 
         }
         */
+
+        Layer selectedLayer;
+        int selectedLayerIndex;
+
         private void btn_addLayerDone_Click(object sender, RoutedEventArgs e)
         {
             var layer = new Layer();
@@ -181,7 +185,29 @@ namespace deepLearning {
                 layer.Content.Children.Add(new Neuron() { Width = 52, Height = 52});
             }
             grid_layers.Children.Add(layer);
-            layerList.Items.Add(new ListBoxItem() { Content = txt_layerName.Text});
+            string layername = "";
+            if (txt_layerName.Text.ToLower() == "auto" || txt_layerName.Text == "") {
+                int biggest = 0;
+                for(int i=layers.Count - 1;i>=0;--i) {
+                    if (layers[i].Name.StartsWith("layer ") && layers[i].Name.Length > 6 && layers[i].Name[6].ToString().IsInteger())
+                        biggest = int.Parse(layers[i].Name[6].ToString());
+                }
+                layername = "layer " + biggest + 1;
+            }
+            else
+                layername = txt_layerName.Text;
+
+            layer.Content.MouseDown += selectLayer;
+
+            layerList.Items.Add(new ListBoxItem() { Content = layername});
+            layers.Add(layer);
+        }
+
+        void selectLayer (object sender, EventArgs e)
+        {
+            selectedLayer = (Layer)sender;
+
+            //selectedLayerIndex = 
         }
 
         private void btn_addLayerCancel_Click(object sender, RoutedEventArgs e)

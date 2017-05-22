@@ -5,7 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:deepLearning"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UniformGrid x:Name="Content" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-    </UniformGrid>
+             d:DesignHeight="300" d:DesignWidth="83">
+    <Grid MaxWidth="83">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Viewbox>
+            <Label x:Name="label_layerName" Background="#FFBFBFBF">Layer name</Label>
+        </Viewbox>
+        <Viewbox Grid.Row="1">
+            <UniformGrid x:Name="Content" HorizontalAlignment="Center" Margin="0,0,0,30" Width="83" Columns="1" Grid.Row="1" Background="Transparent">
+            </UniformGrid>
+        </Viewbox>
+    </Grid>
 </UserControl>

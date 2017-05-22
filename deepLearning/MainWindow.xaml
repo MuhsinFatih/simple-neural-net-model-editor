@@ -35,9 +35,7 @@
                     <ColumnDefinition Width="230"/>
                 </Grid.ColumnDefinitions>
                 <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0">
-                    <UniformGrid HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
-                        <local:Neuron Height="52" Width="52"/>
-                    </UniformGrid>
+                    
                     
                 </UniformGrid>
                 <UniformGrid x:Name="demoLayers" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Collapsed">
@@ -120,7 +118,7 @@
 
                                     </UniformGrid>
                                 </StackPanel>
-                                <Border x:Name="grid_addLayer" BorderThickness="0,1" BorderBrush="#4C393939">
+                                <Border x:Name="grid_addLayer" BorderThickness="0,1" BorderBrush="#4C393939" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*"/>
@@ -137,7 +135,7 @@
                                                 <Viewbox StretchDirection="DownOnly" Stretch="Uniform" HorizontalAlignment="Right">
                                                     <Label VerticalContentAlignment="Center" FontSize="13" Content="Number of neurons:"/>
                                                 </Viewbox>
-                                                <TextBox x:Name="txt_neuronCount" PreviewTextInput="NumericOnly"/>
+                                                <TextBox x:Name="txt_neuronCount" PreviewTextInput="NumericOnly">4</TextBox>
                                             </UniformGrid>
                                             <CheckBox FontSize="12" Padding="7" HorizontalAlignment="Center" Content="Add Before the selected layer"/>
 
