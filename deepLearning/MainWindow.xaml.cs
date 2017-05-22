@@ -199,6 +199,14 @@ namespace deepLearning
                 layers.Remove(selectedLayer);
                 grid_layers.Children.Remove(selectedLayer);
                 layerList.Items.RemoveAt(selectedLayerIndex);
+                grid_layers.UpdateLayout();
+                foreach (var layer in layers) {
+                    foreach (var neuron in layer.neurons) {
+                        foreach (var link in neuron.links) {
+                            link.Connect(getVector(link.input), getVector(neuron));
+                        }
+                    }
+                }
             }
         }
         /*
@@ -396,6 +404,7 @@ namespace deepLearning
                 Keyboard.ClearFocus();
             }
         }
+        
     }
 
 

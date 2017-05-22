@@ -14,7 +14,7 @@
         Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4" Icon="Empty.png">
     <Grid>
 
-        <Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged" MouseDown="emptySpace_MouseDown" Background="Transparent">
+        <Canvas x:Name="mainCanvas" MouseDown="emptySpace_MouseDown" Background="Transparent">
             <Grid x:Name="demoInputLayer" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Collapsed">
                 <Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
                     <UniformGrid  Width="140" Height="140"   Rows="2">
