@@ -82,7 +82,7 @@
                                     <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="13" Content="Selected:"/>
                                     <Label x:Name="label_selected" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="None"/>
                                 </UniformGrid>
-                                <Border x:Name="layer_menu" BorderThickness="0,1" BorderBrush="#4C393939" Visibility="Visible">
+                                <Border x:Name="layer_menu" BorderThickness="0,1" BorderBrush="#4C393939" Visibility="Collapsed">
                                     <UniformGrid Rows="1">
                                         <Button x:Name="btn_removeLayer" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Margin="0" Click="btn_removeLayer_Click">
                                             <Grid HorizontalAlignment="Center">

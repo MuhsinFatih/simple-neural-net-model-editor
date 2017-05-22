@@ -180,6 +180,10 @@ namespace deepLearning {
         Layer selectedLayer;
         int selectedLayerIndex;
 
+        void selectNeuron(object sender, EventArgs e) {
+            ((Neuron)sender).ellipse.Fill = new SolidColorBrush(Colors.Tomato);
+        }
+
         private void btn_addLayerDone_Click(object sender, RoutedEventArgs e)
         {
             var layer = new Layer();
@@ -191,7 +195,9 @@ namespace deepLearning {
             }
 
             for (int i=0;i<ic; ++i) {
-                layer.Content.Children.Add(new Neuron() { Width = 52, Height = 52});
+                Neuron neuron = new Neuron() { Width = 52, Height = 52 };
+                neuron.PreviewMouseUp += selectNeuron;
+                layer.Content.Children.Add(neuron);
             }
             if (txt_layerName.Text.ToLower() == "auto" || txt_layerName.Text == "") {
                 int biggest = -1;
@@ -213,7 +219,7 @@ namespace deepLearning {
                 }
                 layer.Name = txt_layerName.Text;
             }
-            layer.Content.MouseDown += selectLayer;
+            layer.Content.PreviewMouseUp += selectLayer;
 
 
             // add layer
