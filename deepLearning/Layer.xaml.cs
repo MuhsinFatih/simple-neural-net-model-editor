@@ -34,7 +34,7 @@ namespace deepLearning
         
         public bool selected = false;
 
-        public List<Neuron> neurons;
+        public List<Neuron> neurons = new List<Neuron>();
         public Layer()
         {
             InitializeComponent();
@@ -49,7 +49,6 @@ namespace deepLearning
         }
 		public Layer(string name) : base(){
 			this.name = name;
-			neurons = new List<Neuron>();
 			foreach (Neuron item in Content.Children) {
 				neurons.Add(item);
 			}

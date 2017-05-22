@@ -14,7 +14,7 @@
         Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4" Icon="Empty.png">
     <Grid>
 
-        <Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged">
+        <Canvas x:Name="mainCanvas" SizeChanged="Canvas_SizeChanged" MouseDown="emptySpace_MouseDown" Background="Transparent">
             <Grid x:Name="demoInputLayer" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Collapsed">
                 <Border x:Name="inputRect" HorizontalAlignment="Left" Margin="10,0,0,0" BorderBrush="Black" BorderThickness="3" VerticalAlignment="Center">
                     <UniformGrid  Width="140" Height="140"   Rows="2">
@@ -34,7 +34,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="230"/>
                 </Grid.ColumnDefinitions>
-                <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0" MouseDown="emptySpace_MouseDown"/>
+                <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0"/>
                 <UniformGrid x:Name="demoLayers" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Collapsed">
                     <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
                         <local:Neuron Height="52" Width="52"/>
