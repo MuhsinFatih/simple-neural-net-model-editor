@@ -37,7 +37,7 @@ namespace deepLearning
         {
             InitializeComponent();
             Content.MouseEnter += delegate {
-                Content.Background = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+                Content.Background = new SolidColorBrush(Color.FromArgb(25, 0, 0, 0));
             };
             Content.MouseLeave += delegate {
                 Content.Background = new SolidColorBrush(Colors.Transparent);

@@ -11,9 +11,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Viewbox>
-            <Label x:Name="label_layerName" Background="#7FBFBFBF" Padding="5,15,5,5">Layer name</Label>
-        </Viewbox>
+        <!--<Viewbox>-->
+            <Label x:Name="label_layerName" Padding="5,25,5,5" Background="#19000000" Foreground="#DDFFFFFF" HorizontalContentAlignment="Center" >Layer name</Label>
+        <!--</Viewbox>-->
         <UniformGrid x:Name="Content" Width="83" Columns="1" Background="Transparent" Grid.Row="1">
         </UniformGrid>
     </Grid>
