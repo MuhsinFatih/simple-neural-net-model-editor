@@ -180,9 +180,33 @@ namespace deepLearning {
         Layer selectedLayer;
         int selectedLayerIndex;
 
+        Neuron[] selectedNeuron = new Neuron[2];
+        
+
         void selectNeuron(object sender, MouseButtonEventArgs e) {
-            e.Handled = true;
-            ((Neuron)sender).ellipse.Fill = new SolidColorBrush(Colors.Tomato);
+            e.Handled = true; // prevent parent mouse events
+            deselectPrevious();
+            Neuron neuron = (sender as Ellipse).Parent as Neuron;
+            ((Ellipse)sender).Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFBF7272"));
+            if (selectedNeuron[0] == null) {
+                selectedNeuron[0] = neuron;
+            } else if (selectedNeuron[0] != null) {
+                selectedNeuron[1] = neuron;
+                var n0i = layers.IndexOf(selectedNeuron[0].parentLayer);
+                var n1i = layers.IndexOf(neuron.parentLayer);
+                Link link;
+                if (n1i > n0i)
+                    link = new Link(getVector(of: selectedNeuron[0]), getVector(of: neuron));
+                else if (n1i < n0i)
+                    link = new Link(getVector(of: neuron), getVector(of: selectedNeuron[0]));
+                else {
+                    warn("You cannot connect two neurons at same layer!");
+                    deselectPrevious();
+                    return;
+                }
+                addLink(link, to: neuron, drawOn: mainCanvas);
+                deselectPrevious();
+            };
         }
 
         private void btn_addLayerDone_Click(object sender, RoutedEventArgs e)
@@ -196,8 +220,8 @@ namespace deepLearning {
             }
 
             for (int i=0;i<ic; ++i) {
-                Neuron neuron = new Neuron() { Width = 52, Height = 52 };
-                neuron.PreviewMouseUp += selectNeuron;
+                Neuron neuron = new Neuron() { Width = 52, Height = 52, parentLayer = layer };
+                neuron.ellipse.MouseUp += selectNeuron;
                 layer.Content.Children.Add(neuron);
             }
             if (txt_layerName.Text.ToLower() == "auto" || txt_layerName.Text == "") {
@@ -220,8 +244,7 @@ namespace deepLearning {
                 }
                 layer.Name = txt_layerName.Text;
             }
-
-            layer.Content.PreviewMouseUp += selectLayer;
+            layer.Content.MouseUp += selectLayer;
 
 
             // add layer
@@ -233,8 +256,11 @@ namespace deepLearning {
             if (selectedLayer == null) return;
             selectedLayer.selected = false;
             selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
+            if (selectedNeuron[0] != null) selectedNeuron[0].ellipse.Fill = Brushes.White;
+            if (selectedNeuron[1] != null) selectedNeuron[1].ellipse.Fill = Brushes.White;
+            selectedNeuron = new Neuron[2];
         }
-        void selectLayer (object sender, EventArgs e)
+        void selectLayer (object sender, MouseButtonEventArgs e)
         {
             deselectPrevious();
             Layer layer = (Layer)(((sender as UniformGrid).Parent as Grid).Parent);

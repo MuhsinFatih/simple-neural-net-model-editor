@@ -31,7 +31,7 @@ namespace deepLearning
                 label_layerName.Content = value;
             }
         }
-
+        
         public bool selected = false;
 
         public List<Neuron> neurons;

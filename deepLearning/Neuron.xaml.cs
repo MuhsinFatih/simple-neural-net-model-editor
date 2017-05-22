@@ -18,8 +18,8 @@ namespace deepLearning {
     /// Interaction logic for Neuron.xaml
     /// </summary>
     public partial class Neuron : UserControl {
-		
-		public double val = 0;
+        public Layer parentLayer;
+        public double val = 0;
 		// input links
 		public Function function;
 		public List<Link> links = new List<Link>();
