@@ -162,7 +162,7 @@
                                                 </Viewbox>
                                                 <TextBox x:Name="txt_neuronCount" PreviewTextInput="NumericOnly">4</TextBox>
                                             </UniformGrid>
-                                            <CheckBox FontSize="12" Padding="7" HorizontalAlignment="Center" Content="Add Before the selected layer"/>
+                                            <CheckBox x:Name="chAddBeforeSelectedLayer" FontSize="12" Padding="7" HorizontalAlignment="Center" Content="Add Before the selected layer"/>
 
                                         </StackPanel>
                                         <UniformGrid Grid.Row="1" Rows="1">

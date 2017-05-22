@@ -260,10 +260,17 @@ namespace deepLearning
 
 
             // add layer
-            grid_layers.Children.Add(layer);
-
-            layerList.Items.Add(new ListBoxItem() { Content = layer.Name });
-            layers.Add(layer);
+            if (chAddBeforeSelectedLayer.IsChecked.Value) {
+                if (selectedLayer == null) { warn("you haven't selected any layer to insert before"); return; }
+                grid_layers.Children.Insert(selectedLayerIndex,layer);
+                layerList.Items.Insert(selectedLayerIndex, new ListBoxItem() { Content = layer.Name });
+                layers.Insert(selectedLayerIndex, layer);
+            }
+            else {
+                grid_layers.Children.Add(layer);
+                layerList.Items.Add(new ListBoxItem() { Content = layer.Name });
+                layers.Add(layer);
+            }
         }
 
         Layer selectedLayer;
@@ -316,9 +323,13 @@ namespace deepLearning
             };
         }
 
-        void deselectPrevious(bool deselectNeurons = true)
+        void deselectPrevious(bool deselectNeurons = true, bool layerListUnselect = true, bool collapse = true)
         {
             if (selectedLayer != null) {
+                if(layerListUnselect) layerList.UnselectAll();
+                label_selected.Content = "None";
+                selectedLayerIndex = -1;
+                if(collapse) layer_menu.Visibility = Visibility.Collapsed;
                 selectedLayer.selected = false;
                 selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
             }
@@ -330,7 +341,7 @@ namespace deepLearning
         }
         void selectLayer(object sender, MouseButtonEventArgs e)
         {
-            deselectPrevious();
+            deselectPrevious(collapse: false);
             Layer layer = (Layer)(((sender as UniformGrid).Parent as Grid).Parent);
             selectedLayer = layer;
             for (int i = 0; i < layers.Count; ++i) {
@@ -350,10 +361,10 @@ namespace deepLearning
         bool layerListMouseUp = true;
         private void layerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            deselectPrevious();
-            layerListMouseUp = false;
             if (layerList.SelectedValue == null)
                 return;
+            deselectPrevious(layerListUnselect: false, collapse: false);
+            layerListMouseUp = false;
             selectedLayerIndex = layerList.SelectedIndex;
             for (int i = 0; i < layers.Count; ++i) {
                 if (layers[i].Name == (string)(layerList.SelectedItem as ListBoxItem).Content) {
@@ -383,10 +394,7 @@ namespace deepLearning
 
         private void btn_deselectLayer_Click(object sender, RoutedEventArgs e)
         {
-            layerList.UnselectAll();
-            label_selected.Content = "None";
-            selectedLayerIndex = -1;
-            layer_menu.Visibility = Visibility.Collapsed;
+            deselectPrevious();
         }
 
         #endregion
