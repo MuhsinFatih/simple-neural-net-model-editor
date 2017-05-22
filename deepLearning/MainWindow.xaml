@@ -35,8 +35,8 @@
                     <ColumnDefinition Width="230"/>
                 </Grid.ColumnDefinitions>
                 <UniformGrid x:Name="grid_layers" Rows="1" Height="{Binding Parent.ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Panel.ZIndex="1" Grid.Column="0">
-                    
-                    
+
+
                 </UniformGrid>
                 <UniformGrid x:Name="demoLayers" Margin="265,0,0,-0.333" Width="513" Rows="1" Height="{Binding ActualHeight, ElementName=mainCanvas}" Panel.ZIndex="1" Visibility="Collapsed">
                     <UniformGrid x:Name="grid_layer1" HorizontalAlignment="Center" Margin="0,30" Width="83" Columns="1">
@@ -76,18 +76,41 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Vertical" Grid.Row="0">
                         <Label Content="Edit" FontSize="20" Foreground="#FF151515" Padding="20,10,10,10" Background="#19000000" FontWeight="Light" VerticalAlignment="Top"/>
-                        <Border BorderThickness="0,0,3,0" Background="#4CC8C8C8" Margin="0,10,0,0">
-                            <UniformGrid Rows="1">
-                                <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="13" Content="Selected:"/>
-                                <Label x:Name="label_selected" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="None"/>
-                            </UniformGrid>
+                        <Border BorderThickness="0,0,3,0" Background="#4CC8C8C8" Margin="0,10,0,0" BorderBrush="#FF47B1FF">
+                            <StackPanel>
+                                <UniformGrid Rows="1">
+                                    <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="13" Content="Selected:"/>
+                                    <Label x:Name="label_selected" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="None"/>
+                                </UniformGrid>
+                                <Border BorderThickness="0,1" BorderBrush="#4C393939" Visibility="Collapsed">
+                                    <Button x:Name="btn_removeLayer" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Background="{x:Null}" Margin="0">
+                                        <Grid HorizontalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.3*"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Viewbox RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right">
+                                                <Viewbox.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                                                    </TransformGroup>
+                                                </Viewbox.RenderTransform>
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="M19,13H5V11H19V13Z" Fill="#FF8B2C2C" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <Label Grid.Column="1" Margin="0" Content="Remove"/>
+                                        </Grid>
+                                    </Button>
+                                </Border>
+                            </StackPanel>
                         </Border>
                         <Border BorderBrush="#FFFF7474" BorderThickness="0,0,3,0" Background="#4CC8C8C8" Margin="0,10,0,0">
                             <StackPanel>
                                 <StackPanel>
 
                                     <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13">Layers</Label>
-                                    <ListBox x:Name="layerList" MaxHeight="100" FontSize="12" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderBrush="#FFC2C2C2" BorderThickness="0,1" >
+                                    <ListBox x:Name="layerList" MaxHeight="100" FontSize="12" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderBrush="#FFC2C2C2" BorderThickness="0,1" SelectionChanged="layerList_SelectionChanged" >
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ResourceKey={x:Type ListBoxItem}}">
                                                 <Setter Property="Padding" Value="4"/>
@@ -146,7 +169,7 @@
                                         </UniformGrid>
                                     </Grid>
                                 </Border>
-                                
+
                             </StackPanel>
                         </Border>
                         <!--remember to delete this border and its content-->
@@ -212,7 +235,7 @@
                             </UniformGrid>
                         </StackPanel>
                     </Border>
-                    
+
                 </Grid>
 
 

@@ -148,7 +148,9 @@ namespace deepLearning {
 			}
 		}
 
-
+        void warn(string message) {
+            MessageBox.Show(message, "deepLearning", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
 #region UI buttons
 
         private void btn_addLayer_Click(object sender, RoutedEventArgs e) {
@@ -177,17 +179,16 @@ namespace deepLearning {
 
             int ic;
             if (!int.TryParse(txt_neuronCount.Text, out ic)) {
-                MessageBox.Show("Please enter the number of neurons you want this layer to have","Error",MessageBoxButton.OK,MessageBoxImage.Warning);
+                warn("Please enter the number of neurons you want this layer to have");
                 return;
             }
 
             for (int i=0;i<ic; ++i) {
                 layer.Content.Children.Add(new Neuron() { Width = 52, Height = 52});
             }
-            grid_layers.Children.Add(layer);
             if (txt_layerName.Text.ToLower() == "auto" || txt_layerName.Text == "") {
                 int biggest = -1;
-                for(int i=layers.Count - 1;i>=0;--i) {
+                for (int i = layers.Count - 1; i >= 0; --i) {
                     if (layers[i].Name.StartsWith("layer ") && layers[i].Name.Length > 6 && layers[i].Name[6].ToString().IsInteger()) {
                         int a = int.Parse(layers[i].Name[6].ToString());
                         if (a > biggest)
@@ -196,20 +197,49 @@ namespace deepLearning {
                 }
                 layer.Name = "layer " + (biggest + 1);
             }
-            else
+            else {
+                for (int i = 0; i < layers.Count; ++i) {
+                    if(layers[i].Name == layer.Name) {
+                        warn("Two layers cannot have the same name");
+                        return;
+                    }
+                }
                 layer.Name = txt_layerName.Text;
-            
+            }
             layer.Content.MouseDown += selectLayer;
 
+
+            // add layer
+            grid_layers.Children.Add(layer);
             layerList.Items.Add(new ListBoxItem() { Content = layer.Name});
             layers.Add(layer);
         }
 
         void selectLayer (object sender, EventArgs e)
         {
-            selectedLayer = (Layer)sender;
+            Layer layer = (Layer)(((sender as UniformGrid).Parent as Grid).Parent);
+            selectedLayer = layer;
+            for(int i=0; i<layers.Count; ++i) {
+                if(layers[i].Name == layer.Name) {
+                    selectedLayerIndex = i;
+                    break;
+                }
+            }
+            label_selected.Content = selectedLayer.Name;
+            layerList.SelectedIndex = selectedLayerIndex;
+        }
 
-            //selectedLayerIndex = 
+        private void layerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+            selectedLayerIndex = layerList.SelectedIndex;
+            for (int i = 0; i < layers.Count; ++i) {
+                if (layers[i].Name == (string)(layerList.SelectedItem as ListBoxItem).Content) {
+                    selectedLayer = layers[i];
+                    break;
+                }
+            }
+            label_selected.Content = selectedLayer.Name;
         }
 
         private void btn_addLayerCancel_Click(object sender, RoutedEventArgs e)
@@ -223,6 +253,7 @@ namespace deepLearning {
         {
             e.Handled = !e.Text.IsInteger();
         }
+
     }
 
 
