@@ -26,7 +26,7 @@ namespace deepLearning
 				return this.weight;
 			}
 			set {
-				label_weight.Content = value.ToString();
+				label_weight.Text = value.ToString();
 				Brush brush = new SolidColorBrush(grayScale(value, -1, 1));
 				border.BorderBrush = brush;
 				line.Stroke = brush;
@@ -48,10 +48,12 @@ namespace deepLearning
             InitializeComponent();
 			this.MouseEnter += delegate {
 				border.Visibility = Visibility.Visible;
+                line.StrokeThickness = 2;
 			};
 			this.MouseLeave += delegate {
 				border.Visibility = Visibility.Hidden;
-			};
+                line.StrokeThickness = 1;
+            };
 			
         }
 		public Link(double weight) : this() {
@@ -87,6 +89,18 @@ namespace deepLearning
 
 			this.Width = Math.Sqrt(Math.Pow(w,2) + Math.Pow(h,2));
 		}
-		
-	}
+
+        private void label_weight_GotFocus(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            (sender as TextBox).SelectAll();
+        }
+
+        private void label_weight_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter) {
+                Keyboard.ClearFocus();
+            }
+        }
+    }
 }

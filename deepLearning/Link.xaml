@@ -4,13 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:deepLearning"
-             mc:Ignorable="d" d:DesignWidth="300" Height="40" RenderTransformOrigin="0,0.5" Background="Transparent">
+             mc:Ignorable="d" d:DesignWidth="300" Height="40" RenderTransformOrigin="0,0.5">
 	<Canvas x:Name="canvas">
 		<Line x:Name="line" Stroke="Gray" StrokeThickness="1" X1="0" X2="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" Y1="20" Y2="20"/>
 		<Grid Width="{Binding ActualWidth, ElementName=canvas}" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}">
-			<Border x:Name="border" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" Background="#FF4768B4">
-				<Label x:Name="label_weight" Content="Weight" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White"/>
-			</Border>
-		</Grid>
-	</Canvas>
+            <Border x:Name="border" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" RenderTransformOrigin="0.5,0.5" ClipToBounds="True" Background="#FF4768B4">
+                <TextBox Style="{x:Null}" x:Name="label_weight" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" Foreground="White" Text="0" BorderThickness="0" Padding="7,3,7,3" GotFocus="label_weight_GotFocus" Cursor="Hand" KeyDown="label_weight_KeyDown">
+                    
+                    <!--<TextBox.Style>
+                        <Style>
+                            --><!--cancels material design--><!--
+                        </Style>
+                    </TextBox.Style>-->
+                </TextBox>
+            </Border>
+            <Border Panel.ZIndex="-1" x:Name="mouseHitArea" Height="10" VerticalAlignment="Center" Background="Transparent"/>
+        </Grid>
+    </Canvas>
 </UserControl>
