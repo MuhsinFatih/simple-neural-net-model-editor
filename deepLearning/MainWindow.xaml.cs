@@ -17,7 +17,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
 using Newtonsoft.Json;
 using System.IO;
-
+using Microsoft.Win32;
 
 
 namespace deepLearning
@@ -92,8 +92,7 @@ namespace deepLearning
                 try {
                     drawOn.Children.Add(link);
                     Panel.SetZIndex(link, -1);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     if (e.HResult != -2147024809) {
                         System.Windows.MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
@@ -177,41 +176,48 @@ namespace deepLearning
             grid_addLayer.Visibility = Visibility.Visible;
         }
 
-        private void btn_removeLayer_Click(object sender, RoutedEventArgs e)
+        void removeLayer(Layer selectedLayer)
         {
             grid_addLayer.Visibility = Visibility.Collapsed;
+            for (int i = 0; i < selectedLayer.neurons.Count; ++i) {
+                for (int k = 0; k < selectedLayer.neurons[i].links.Count; ++k) {
+                    var links = selectedLayer.neurons[i].links;
+                    mainCanvas.Children.Remove(links[k]);
+                }
+            }
+            if (layers.Count > selectedLayerIndex + 1) {
+                var layer = layers[selectedLayerIndex + 1];
+                for (int i = 0; i < layer.neurons.Count; ++i) {
+                    foreach (var link in layer.neurons[i].links.ToList()) {
+                        if (link.input.parentLayer == selectedLayer) {
+                            layer.neurons[i].links.Remove(link);
+                            mainCanvas.Children.Remove(link);
+                        }
+                    }
+                }
+            }
+            layers.Remove(selectedLayer);
+            grid_layers.Children.Remove(selectedLayer);
+            layerList.Items.RemoveAt(selectedLayerIndex);
+            reconnectLinks();
+        }
+        void reconnectLinks()
+        {
+            grid_layers.UpdateLayout();
+            foreach (var layer in layers) {
+                foreach (var neuron in layer.neurons) {
+                    foreach (var link in neuron.links) {
+                        link.Connect(getVector(link.input), getVector(neuron));
+                    }
+                }
+            }
+        }
+        private void btn_removeLayer_Click(object sender, RoutedEventArgs e)
+        {
             if (selectedLayerIndex == -1) {
                 warn("Select a layer to remove first");
-            }
-            else {
-                for (int i = 0; i < selectedLayer.neurons.Count; ++i) {
-                    for (int k = 0; k < selectedLayer.neurons[i].links.Count; ++k) {
-                        var links = selectedLayer.neurons[i].links;
-                        mainCanvas.Children.Remove(links[k]);
-                    }
-                }
-                if (layers.Count > selectedLayerIndex + 1) {
-                    var layer = layers[selectedLayerIndex + 1];
-                    for (int i = 0; i < layer.neurons.Count; ++i) {
-                        foreach (var link in layer.neurons[i].links.ToList()) {
-                            if (link.input.parentLayer == selectedLayer) {
-                                layer.neurons[i].links.Remove(link);
-                                mainCanvas.Children.Remove(link);
-                            }
-                        }
-                    }
-                }
-                layers.Remove(selectedLayer);
-                grid_layers.Children.Remove(selectedLayer);
-                layerList.Items.RemoveAt(selectedLayerIndex);
-                grid_layers.UpdateLayout();
-                foreach (var layer in layers) {
-                    foreach (var neuron in layer.neurons) {
-                        foreach (var link in neuron.links) {
-                            link.Connect(getVector(link.input), getVector(neuron));
-                        }
-                    }
-                }
+            } else {
+                removeLayer(selectedLayer);
             }
         }
         /*
@@ -251,8 +257,7 @@ namespace deepLearning
                     }
                 }
                 layer.Name = "layer " + (biggest + 1);
-            }
-            else {
+            } else {
                 for (int i = 0; i < layers.Count; ++i) {
                     if (layers[i].Name == layer.Name) {
                         warn("Two layers cannot have the same name");
@@ -270,12 +275,12 @@ namespace deepLearning
                 grid_layers.Children.Insert(selectedLayerIndex, layer);
                 layerList.Items.Insert(selectedLayerIndex, new ListBoxItem() { Content = layer.Name });
                 layers.Insert(selectedLayerIndex, layer);
-            }
-            else {
+            } else {
                 grid_layers.Children.Add(layer);
                 layerList.Items.Add(new ListBoxItem() { Content = layer.Name });
                 layers.Add(layer);
             }
+            reconnectLinks();
         }
 
         Layer selectedLayer;
@@ -298,8 +303,7 @@ namespace deepLearning
             if (selectedNeuron[0] == null) {
                 deselectPrevious(false);
                 selectedNeuron[0] = neuron;
-            }
-            else {
+            } else {
                 selectedNeuron[1] = neuron;
                 Neuron[] neurons = {
                     selectedNeuron[0],
@@ -317,8 +321,7 @@ namespace deepLearning
                 else if (n1i == n0i) {
                     warn("You cannot connect two neurons at same layer!");
                     return;
-                }
-                else {
+                } else {
                     warn("Neurons can only be connected to the next layer!");
                     return;
                 }
@@ -411,17 +414,21 @@ namespace deepLearning
         }
 
 
-        class Model{
-            
+        class Model
+        {
+
             public List<Layer> layers = new List<Layer>();
-            public class Layer{
+            public class Layer
+            {
                 public string name;
                 public List<Neuron> neurons = new List<Neuron>();
             }
-            public class Neuron{
+            public class Neuron
+            {
                 public List<Link> links = new List<Link>();
             }
-            public class Link {
+            public class Link
+            {
                 public int inputIndex;
                 public double weight;
             }
@@ -429,44 +436,73 @@ namespace deepLearning
         private void save_Click(object sender, RoutedEventArgs e)
         {
             //var txt_model = JsonConvert.SerializeObject(layers); // won't work because there are self referencing objects. + there are UI elements which is nonsense to store in a json object
-            var txt_model = "";
             var model = new Model();
 
-            for(int l = 0; l < layers.Count; ++l) {
-                model.layers.Add(new Model.Layer() { name = layers[l].Name});
-                for(int n = 0; n < layers[l].neurons.Count; ++n) {
+            for (int l = 0; l < layers.Count; ++l) {
+                model.layers.Add(new Model.Layer() { name = layers[l].Name });
+                for (int n = 0; n < layers[l].neurons.Count; ++n) {
                     Neuron neuron = layers[l].neurons[n];
                     model.layers[l].neurons.Add(new Model.Neuron());
-                    for(int k=0;k<neuron.links.Count; ++k) {
+                    for (int k = 0; k < neuron.links.Count; ++k) {
                         Model.Link link = new Model.Link() {
                             inputIndex = layers[l - 1].neurons.IndexOf(neuron.links[k].input),
                             weight = neuron.links[k].Weight
                         };
 
                         model.layers.ElementAt(l).neurons[n].links.Add(link);
-                        
+
                     }
                 }
             }
 
-
+            var txt_model = JsonConvert.SerializeObject(model);
 
             try {
-                StreamWriter file = new StreamWriter(@"\model.txt", append: false);
+                StreamWriter file;
+                if (chCustomPath.IsChecked.Value) {
+
+                    SaveFileDialog d = new SaveFileDialog() {
+                        Filter = "Text file (*.txt)|*.txt"
+                    };
+                    if (d.ShowDialog().Value) {
+                        file = new StreamWriter(d.FileName, append: false);
+                    } else return;
+
+                } else
+                    file = new StreamWriter(@"model.txt", append: false);
 
                 file.Write(txt_model);
                 file.Close();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 warn(ex.Message);
-                throw;
+                return;
             }
-
+            MessageBox.Show("Model saved!", "deepLearning", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
         {
+            string txt_model;
+            try {
+                if (chCustomPath.IsChecked.Value) {
+                    OpenFileDialog d = new OpenFileDialog() {
+                        Filter = "Text file (*.txt)|*.txt"
+                    };
+                    if (d.ShowDialog().Value) {
+                        txt_model = File.ReadAllText(d.FileName);
+                    } else return;
+                } else
+                    txt_model = File.ReadAllText(@"model.txt");
+            } catch (Exception ex) {
+                warn(ex.Message);
+                return;
+            }
+            Model model = (Model)JsonConvert.DeserializeObject(txt_model);
+
+            foreach (var layer in model.layers) {
+
+            }
 
         }
         #endregion
@@ -476,7 +512,13 @@ namespace deepLearning
             e.Handled = !e.Text.IsInteger();
         }
 
-
+        private void btn_reset_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var layer in layers.ToList()) {
+                removeLayer(layer);
+            }
+            mainCanvas.UpdateLayout();
+        }
     }
 
 
