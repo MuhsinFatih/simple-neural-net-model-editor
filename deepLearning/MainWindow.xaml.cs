@@ -250,21 +250,21 @@ namespace deepLearning
             if (txt_layerName.Text.ToLower() == "auto" || txt_layerName.Text == "") {
                 int biggest = -1;
                 for (int i = layers.Count - 1; i >= 0; --i) {
-                    if (layers[i].Name.StartsWith("layer ") && layers[i].Name.Length > 6 && layers[i].Name[6].ToString().IsInteger()) {
-                        int a = int.Parse(layers[i].Name[6].ToString());
+                    if (layers[i].layerName.StartsWith("layer ") && layers[i].layerName.Length > 6 && layers[i].layerName[6].ToString().IsInteger()) {
+                        int a = int.Parse(layers[i].layerName[6].ToString());
                         if (a > biggest)
                             biggest = a;
                     }
                 }
-                layer.Name = "layer " + (biggest + 1);
+                layer.layerName = "layer " + (biggest + 1);
             } else {
                 for (int i = 0; i < layers.Count; ++i) {
-                    if (layers[i].Name == layer.Name) {
+                    if (layers[i].layerName == layer.layerName) {
                         warn("Two layers cannot have the same name");
                         return;
                     }
                 }
-                layer.Name = txt_layerName.Text;
+                layer.layerName = txt_layerName.Text;
             }
             layer.Content.MouseUp += selectLayer;
 
@@ -273,11 +273,11 @@ namespace deepLearning
             if (chAddBeforeSelectedLayer.IsChecked.Value) {
                 if (selectedLayer == null) { warn("you haven't selected any layer to insert before"); return; }
                 grid_layers.Children.Insert(selectedLayerIndex, layer);
-                layerList.Items.Insert(selectedLayerIndex, new ListBoxItem() { Content = layer.Name });
+                layerList.Items.Insert(selectedLayerIndex, new ListBoxItem() { Content = layer.layerName });
                 layers.Insert(selectedLayerIndex, layer);
             } else {
                 grid_layers.Children.Add(layer);
-                layerList.Items.Add(new ListBoxItem() { Content = layer.Name });
+                layerList.Items.Add(new ListBoxItem() { Content = layer.layerName });
                 layers.Add(layer);
             }
             reconnectLinks();
@@ -353,12 +353,12 @@ namespace deepLearning
             Layer layer = (Layer)(((sender as UniformGrid).Parent as Grid).Parent);
             selectedLayer = layer;
             for (int i = 0; i < layers.Count; ++i) {
-                if (layers[i].Name == layer.Name) {
+                if (layers[i].layerName == layer.layerName) {
                     selectedLayerIndex = i;
                     break;
                 }
             }
-            label_selected.Content = selectedLayer.Name;
+            label_selected.Content = selectedLayer.layerName;
             layer_menu.Visibility = Visibility.Visible;
 
             layerList.SelectedIndex = selectedLayerIndex;
@@ -375,12 +375,12 @@ namespace deepLearning
             layerListMouseUp = false;
             selectedLayerIndex = layerList.SelectedIndex;
             for (int i = 0; i < layers.Count; ++i) {
-                if (layers[i].Name == (string)(layerList.SelectedItem as ListBoxItem).Content) {
+                if (layers[i].layerName == (string)(layerList.SelectedItem as ListBoxItem).Content) {
                     selectedLayer = layers[i];
                     break;
                 }
             }
-            label_selected.Content = selectedLayer.Name;
+            label_selected.Content = selectedLayer.layerName;
             selectedLayer.selected = true;
             selectedLayer.Content.Background = new SolidColorBrush(Color.FromArgb(25, 0, 0, 0));
             selected = Selected.layer;
@@ -439,7 +439,7 @@ namespace deepLearning
             var model = new Model();
 
             for (int l = 0; l < layers.Count; ++l) {
-                model.layers.Add(new Model.Layer() { name = layers[l].Name });
+                model.layers.Add(new Model.Layer() { name = layers[l].layerName });
                 for (int n = 0; n < layers[l].neurons.Count; ++n) {
                     Neuron neuron = layers[l].neurons[n];
                     model.layers[l].neurons.Add(new Model.Neuron());
@@ -498,12 +498,25 @@ namespace deepLearning
                 warn(ex.Message);
                 return;
             }
-            Model model = (Model)JsonConvert.DeserializeObject(txt_model);
+            Model model = JsonConvert.DeserializeObject<Model>(txt_model);
 
-            foreach (var layer in model.layers) {
-
+            resetNetwork();
+            for (int l = 0; l < model.layers.Count; ++l) {
+                var modelLayer = model.layers[l];
+                var layer = new Layer() { layerName = modelLayer.name };
+                for (int n = 0; n < modelLayer.neurons.Count; ++n) {
+                    var modelNeuron = modelLayer.neurons[n];
+                    var neuron = new Neuron() { parentLayer = layer };
+                    layer.neurons.Add(neuron);
+                    for (int k = 0; k < modelNeuron.links.Count; ++k) {
+                        var modelLink = modelNeuron.links[k];
+                        var link = new Link(getVector(layers[l - 1].neurons[modelLink.inputIndex]), getVector(neuron)) { Weight = modelLink.weight };
+                        neuron.links.Add(link);
+                    }
+                }
+                grid_layers.Children.Add(layer);
             }
-
+            mainCanvas.UpdateLayout();
         }
         #endregion
 
@@ -511,13 +524,16 @@ namespace deepLearning
         {
             e.Handled = !e.Text.IsInteger();
         }
-
-        private void btn_reset_Click(object sender, RoutedEventArgs e)
+        void resetNetwork()
         {
             foreach (var layer in layers.ToList()) {
                 removeLayer(layer);
             }
             mainCanvas.UpdateLayout();
+        }
+        private void btn_reset_Click(object sender, RoutedEventArgs e)
+        {
+            resetNetwork();
         }
     }
 

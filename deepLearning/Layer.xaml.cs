@@ -22,7 +22,7 @@ namespace deepLearning
     public partial class Layer : UserControl
     {
         string name = "layer name";
-        public string Name {
+        public string layerName {
             get {
                 return name;
             }
@@ -47,11 +47,6 @@ namespace deepLearning
                     Content.Background = new SolidColorBrush(Colors.Transparent);
             };
         }
-		public Layer(string name) : base(){
-			this.name = name;
-			foreach (Neuron item in Content.Children) {
-				neurons.Add(item);
-			}
-		}
+		
     }
 }
