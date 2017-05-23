@@ -194,7 +194,7 @@ namespace deepLearning
                     var layer = layers[selectedLayerIndex + 1];
                     for (int i = 0; i < layer.neurons.Count; ++i) {
                         foreach (var link in layer.neurons[i].links.ToList()) {
-                            if(link.input.parentLayer == selectedLayer) {
+                            if (link.input.parentLayer == selectedLayer) {
                                 layer.neurons[i].links.Remove(link);
                                 mainCanvas.Children.Remove(link);
                             }
@@ -267,7 +267,7 @@ namespace deepLearning
             // add layer
             if (chAddBeforeSelectedLayer.IsChecked.Value) {
                 if (selectedLayer == null) { warn("you haven't selected any layer to insert before"); return; }
-                grid_layers.Children.Insert(selectedLayerIndex,layer);
+                grid_layers.Children.Insert(selectedLayerIndex, layer);
                 layerList.Items.Insert(selectedLayerIndex, new ListBoxItem() { Content = layer.Name });
                 layers.Insert(selectedLayerIndex, layer);
             }
@@ -331,10 +331,10 @@ namespace deepLearning
         void deselectPrevious(bool deselectNeurons = true, bool layerListUnselect = true, bool collapse = true)
         {
             if (selectedLayer != null) {
-                if(layerListUnselect) layerList.UnselectAll();
+                if (layerListUnselect) layerList.UnselectAll();
                 label_selected.Content = "None";
                 selectedLayerIndex = -1;
-                if(collapse) layer_menu.Visibility = Visibility.Collapsed;
+                if (collapse) layer_menu.Visibility = Visibility.Collapsed;
                 selectedLayer.selected = false;
                 selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
             }
@@ -410,9 +410,47 @@ namespace deepLearning
             }
         }
 
+
+        class Model{
+            
+            public List<Layer> layers = new List<Layer>();
+            public class Layer{
+                public string name;
+                public List<Neuron> neurons = new List<Neuron>();
+            }
+            public class Neuron{
+                public List<Link> links = new List<Link>();
+            }
+            public class Link {
+                public int inputIndex;
+                public double weight;
+            }
+        }
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            var txt_model = JsonConvert.SerializeObject(layers);
+            //var txt_model = JsonConvert.SerializeObject(layers); // won't work because there are self referencing objects. + there are UI elements which is nonsense to store in a json object
+            var txt_model = "";
+            var model = new Model();
+
+            for(int l = 0; l < layers.Count; ++l) {
+                model.layers.Add(new Model.Layer() { name = layers[l].Name});
+                for(int n = 0; n < layers[l].neurons.Count; ++n) {
+                    Neuron neuron = layers[l].neurons[n];
+                    model.layers[l].neurons.Add(new Model.Neuron());
+                    for(int k=0;k<neuron.links.Count; ++k) {
+                        Model.Link link = new Model.Link() {
+                            inputIndex = layers[l - 1].neurons.IndexOf(neuron.links[k].input),
+                            weight = neuron.links[k].Weight
+                        };
+
+                        model.layers.ElementAt(l).neurons[n].links.Add(link);
+                        
+                    }
+                }
+            }
+
+
+
             try {
                 StreamWriter file = new StreamWriter(@"\model.txt", append: false);
 
