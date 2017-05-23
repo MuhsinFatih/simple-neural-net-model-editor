@@ -25,6 +25,8 @@ namespace deepLearning {
 		public List<Link> links = new List<Link>();
 
         public Neuron() {
+            this.Width = 52;
+            this.Height = 52;
             InitializeComponent();
         }
 

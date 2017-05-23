@@ -139,7 +139,7 @@ namespace deepLearning
 
         private void label_weight_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            border.Background = Brushes.Transparent;
+            border.Background = new SolidColorBrush(Color.FromRgb(71, 104, 180));
             border.Visibility = Visibility.Hidden;
             setWeight(label_weight.Text);
         }

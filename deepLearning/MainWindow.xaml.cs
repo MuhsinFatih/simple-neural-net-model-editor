@@ -507,15 +507,24 @@ namespace deepLearning
                 for (int n = 0; n < modelLayer.neurons.Count; ++n) {
                     var modelNeuron = modelLayer.neurons[n];
                     var neuron = new Neuron() { parentLayer = layer };
-                    layer.neurons.Add(neuron);
                     for (int k = 0; k < modelNeuron.links.Count; ++k) {
                         var modelLink = modelNeuron.links[k];
-                        var link = new Link(getVector(layers[l - 1].neurons[modelLink.inputIndex]), getVector(neuron)) { Weight = modelLink.weight };
+                        var link = new Link() { Weight = modelLink.weight };
+                        link.input = layers[l - 1].neurons[modelLink.inputIndex];
                         neuron.links.Add(link);
+
+                        Panel.SetZIndex(link, -1);
+                        mainCanvas.Children.Add(link);
                     }
+                    neuron.ellipse.MouseUp += selectNeuron;
+                    layer.neurons.Add(neuron);
+                    layer.Content.Children.Add(neuron);
                 }
+                layers.Add(layer);
+                layerList.Items.Add(new ListBoxItem() { Content = layer.layerName });
                 grid_layers.Children.Add(layer);
             }
+            reconnectLinks();
             mainCanvas.UpdateLayout();
         }
         #endregion
