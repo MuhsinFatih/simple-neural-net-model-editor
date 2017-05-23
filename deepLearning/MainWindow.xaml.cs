@@ -15,6 +15,11 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
+using Newtonsoft.Json;
+using System.IO;
+
+
+
 namespace deepLearning
 {
     /// <summary>
@@ -397,6 +402,35 @@ namespace deepLearning
             deselectPrevious();
         }
 
+        private void emptySpace_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource == sender) {
+                Focus();
+                Keyboard.ClearFocus();
+            }
+        }
+
+        private void save_Click(object sender, RoutedEventArgs e)
+        {
+            var txt_model = JsonConvert.SerializeObject(layers);
+            try {
+                StreamWriter file = new StreamWriter(@"\model.txt", append: false);
+
+                file.Write(txt_model);
+                file.Close();
+            }
+            catch (Exception ex) {
+                warn(ex.Message);
+                throw;
+            }
+
+
+        }
+
+        private void load_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
 
         private void NumericOnly(object sender, TextCompositionEventArgs e)
@@ -405,14 +439,6 @@ namespace deepLearning
         }
 
 
-        private void emptySpace_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.OriginalSource == sender) {
-                Focus();
-                Keyboard.ClearFocus();
-            }
-        }
-        
     }
 
 

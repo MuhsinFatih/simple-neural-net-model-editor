@@ -232,8 +232,8 @@
                             <Label FontSize="20" Foreground="#FF151515" Padding="20,10,10,0" Background="#19000000" FontWeight="Light" VerticalAlignment="Top" Content="File"/>
                             <Label FontSize="12" Foreground="#FF151515" Padding="20,5,5,10" Background="#19000000" VerticalAlignment="Top" Content="Save &amp; load model files"/>
                             <UniformGrid Rows="1">
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Save"/>
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Load"/>
+                                <Button x:Name="save" Style="{DynamicResource MaterialDesignFlatButton}" Content="Save" Click="save_Click"/>
+                                <Button x:Name="load" Style="{DynamicResource MaterialDesignFlatButton}" Content="Load" Click="load_Click"/>
                             </UniformGrid>
                         </StackPanel>
                     </Border>
