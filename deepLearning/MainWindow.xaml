@@ -11,7 +11,7 @@
         mc:Ignorable="d"
 		ResizeMode="NoResize"
         TextElement.FontSize="14"
-        Title="MainWindow" Height="700" Width="1050" Background="#FF4768B4" Icon="Empty.png">
+        Title="Deep learning" Height="700" Width="1050" Background="#FF4768B4" Icon="Empty.png">
     <Grid>
 
         <Canvas x:Name="mainCanvas" MouseDown="emptySpace_MouseDown" Background="Transparent">
