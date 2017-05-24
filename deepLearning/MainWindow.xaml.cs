@@ -156,11 +156,17 @@ namespace deepLearning
             approximate();
         }
 
-
+        Neuron lastresult;
         // this is where the serious business is done
         void approximate()
         {
-            layers[0].neurons[0].Value = 1;
+            //remove all values except for input layer (first layer)
+            for(int i=1; i < layers.Count; ++i) {
+                foreach (var neuron in layers[i].neurons) {
+                    neuron.Value = 0;
+                }
+            }
+            if (lastresult != null) lastresult.Background = null;
             for (int l = 0; l < layers.Count; ++l) {
                 for (int n = 0; n < layers[l].neurons.Count; ++n) {
                     var neuron = layers[l].neurons[n];
@@ -171,7 +177,17 @@ namespace deepLearning
                     neuron.displayColor();
                 }
             }
-
+            var biggest = 0D;
+            var biggestIndex = 0;
+            var layer = layers[layers.Count - 1];
+            for (int i=0;i<layer.neurons.Count;++i) {
+                if (layer.neurons[i].Value > biggest) {
+                    biggest = layer.neurons[i].Value;
+                    biggestIndex = i;
+                }
+            }
+            layer.neurons[biggestIndex].Background = new SolidColorBrush(Color.FromArgb(50, 255,255,255));
+            lastresult = layer.neurons[biggestIndex];
         }
 
         void warn(string message)
@@ -187,6 +203,7 @@ namespace deepLearning
 
         void removeLayer(Layer selectedLayer)
         {
+            var selectedLayerIndex = layers.IndexOf(selectedLayer);
             grid_addLayer.Visibility = Visibility.Collapsed;
             for (int i = 0; i < selectedLayer.neurons.Count; ++i) {
                 for (int k = 0; k < selectedLayer.neurons[i].links.Count; ++k) {
@@ -207,7 +224,7 @@ namespace deepLearning
             }
             layers.Remove(selectedLayer);
             grid_layers.Children.Remove(selectedLayer);
-            layerList.Items.RemoveAt(selectedLayerIndex);
+            layerList.Items.Remove(selectedLayerIndex);
             reconnectLinks();
         }
         void reconnectLinks()
@@ -441,6 +458,7 @@ namespace deepLearning
             public class Neuron
             {
                 public Function function;
+                public double value;
                 public List<Link> links = new List<Link>();
             }
             public class Link
@@ -451,6 +469,10 @@ namespace deepLearning
         }
         private void save_Click(object sender, RoutedEventArgs e)
         {
+            if(layers.Count == 0) {
+                warn("There is no network to save!");
+                return;
+            }
             //var txt_model = JsonConvert.SerializeObject(layers); // won't work because there are self referencing objects. + there are UI elements which is nonsense to store in a json object
             var model = new Model();
 
@@ -458,7 +480,7 @@ namespace deepLearning
                 model.layers.Add(new Model.Layer() { name = layers[l].layerName });
                 for (int n = 0; n < layers[l].neurons.Count; ++n) {
                     Neuron neuron = layers[l].neurons[n];
-                    model.layers[l].neurons.Add(new Model.Neuron() { function = neuron.function });
+                    model.layers[l].neurons.Add(new Model.Neuron() { function = neuron.function, value = ( l==0 ? neuron.Value : 0 /*only save input layer values*/) });
                     for (int k = 0; k < neuron.links.Count; ++k) {
                         Model.Link link = new Model.Link() {
                             inputIndex = layers[l - 1].neurons.IndexOf(neuron.links[k].input),
@@ -522,7 +544,7 @@ namespace deepLearning
                 var layer = new Layer() { layerName = modelLayer.name };
                 for (int n = 0; n < modelLayer.neurons.Count; ++n) {
                     var modelNeuron = modelLayer.neurons[n];
-                    var neuron = new Neuron() { parentLayer = layer, function = modelNeuron.function };
+                    var neuron = new Neuron() { parentLayer = layer, function = modelNeuron.function, Value = modelNeuron.value };
                     for (int k = 0; k < modelNeuron.links.Count; ++k) {
                         var modelLink = modelNeuron.links[k];
                         var link = new Link() { Weight = modelLink.weight };

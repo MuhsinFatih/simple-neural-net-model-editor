@@ -56,7 +56,8 @@ namespace deepLearning {
             }
             set {
                 val = value;
-                txt_val.Text = val.ToString();
+                txt_val.Text = Math.Round(val,3).ToString();
+                displayColor();
             }
         }
 
