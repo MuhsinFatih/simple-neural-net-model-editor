@@ -224,7 +224,7 @@ namespace deepLearning
             }
             layers.Remove(selectedLayer);
             grid_layers.Children.Remove(selectedLayer);
-            layerList.Items.Remove(selectedLayerIndex);
+            layerList.Items.RemoveAt(selectedLayerIndex);
             reconnectLinks();
         }
         void reconnectLinks()
