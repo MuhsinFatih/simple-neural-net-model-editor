@@ -5,7 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:deepLearning"
              mc:Ignorable="d" 
-             d:DesignHeight="52" d:DesignWidth="52">
-    <Ellipse x:Name="ellipse" Stroke="Black" StrokeThickness="1" Fill="White" Cursor="Hand" MouseDown="ellipse_MouseDown"/>
-
+             d:DesignHeight="72" d:DesignWidth="52">
+    <Grid Height="72" Width="52">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="52"/>
+        </Grid.RowDefinitions>
+        <Viewbox>
+            <TextBox x:Name="txt_val" Grid.Row="0" Grid.RowSpan="2" TextWrapping="Wrap" Width="52" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" PreviewTextInput="txt_val_PreviewTextInput" KeyDown="txt_val_KeyDown" IsEnabled="False" LostKeyboardFocus="txt_val_LostKeyboardFocus">0</TextBox>
+        </Viewbox>
+        <Ellipse x:Name="ellipse" Grid.Row="1" Stroke="Black" StrokeThickness="1" Fill="White" Cursor="Hand" MouseDown="ellipse_MouseDown" MouseRightButtonDown="ellipse_MouseRightButtonDown"/>
+        <Ellipse x:Name="functionImage" Grid.Row="1" StrokeThickness="0" Panel.ZIndex="2" IsHitTestVisible="False">
+            <Ellipse.Fill>
+                <ImageBrush Stretch="Fill" ></ImageBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+    </Grid>
 </UserControl>

@@ -33,9 +33,7 @@ namespace deepLearning
             this.ContentRendered += main;
         }
 
-
-        int pixelSize = 70;
-        int neuronSize = 52;
+        
 
 
 
@@ -45,14 +43,16 @@ namespace deepLearning
         Vector getVector(UIElement of)
         {
             if (of is Neuron) {
-                return (Vector)of.TransformToAncestor(mainCanvas).Transform(new Point(neuronSize / 2, neuronSize / 2));
+                double offset = (((of as Neuron).ActualHeight) - ((of as Neuron).txt_val.Parent as Viewbox).ActualHeight) / 2 + ((of as Neuron).txt_val.Parent as Viewbox).ActualHeight;
+                return (Vector)of.TransformToAncestor(mainCanvas).Transform(new Point((of as Neuron).ActualWidth / 2, offset));
             }
             return (Vector)of.TransformToAncestor(mainCanvas).Transform(new Point(0, 0));
         }
         Vector getVector(UIElement of, UIElement relativeTo)
         {
             if (of is Neuron) {
-                return (Vector)of.TransformToAncestor(relativeTo).Transform(new Point(neuronSize / 2, neuronSize / 2));
+                double offset = (((of as Neuron).ActualHeight) - ((of as Neuron).txt_val.Parent as Viewbox).ActualHeight) / 2 + ((of as Neuron).txt_val.Parent as Viewbox).ActualHeight;
+                return (Vector)of.TransformToAncestor(relativeTo).Transform(new Point((of as Neuron).ActualWidth / 2, offset));
             }
             return (Vector)of.TransformToAncestor(relativeTo).Transform(new Point(0, 0));
         }
@@ -107,7 +107,7 @@ namespace deepLearning
 
         public void main(object sender, EventArgs e)
         {
-
+            // well, everything is event driven. So yeah, nothing here ^^
         }
 
 
@@ -151,18 +151,27 @@ namespace deepLearning
 
 
 
+        private void btn_run_Click(object sender, RoutedEventArgs e)
+        {
+            approximate();
+        }
+
+
         // this is where the serious business is done
         void approximate()
         {
+            layers[0].neurons[0].Value = 1;
             for (int l = 0; l < layers.Count; ++l) {
                 for (int n = 0; n < layers[l].neurons.Count; ++n) {
                     var neuron = layers[l].neurons[n];
                     for (int i = 0; i < neuron.links.Count; ++i) {
                         var link = neuron.links[i];
-                        neuron.val += link.Weight * link.input.val;
+                        neuron.Value += link.Weight * link.input.output();
                     }
+                    neuron.displayColor();
                 }
             }
+
         }
 
         void warn(string message)
@@ -206,9 +215,15 @@ namespace deepLearning
             grid_layers.UpdateLayout();
             foreach (var layer in layers) {
                 foreach (var neuron in layer.neurons) {
+                    neuron.txt_val.IsEnabled = false;
                     foreach (var link in neuron.links) {
                         link.Connect(getVector(link.input), getVector(neuron));
                     }
+                }
+            }
+            if (layers.Count > 0) {
+                foreach (var neuron in layers[0].neurons) {
+                    neuron.txt_val.IsEnabled = true;
                 }
             }
         }
@@ -242,8 +257,8 @@ namespace deepLearning
             }
 
             for (int i = 0; i < ic; ++i) {
-                Neuron neuron = new Neuron() { Width = 52, Height = 52, parentLayer = layer };
-                neuron.ellipse.MouseUp += selectNeuron;
+                Neuron neuron = new Neuron() { parentLayer = layer };
+                neuron.ellipse.MouseLeftButtonUp += selectNeuron;
                 layer.neurons.Add(neuron);
                 layer.Content.Children.Add(neuron);
             }
@@ -298,7 +313,7 @@ namespace deepLearning
         {
             e.Handled = true; // prevent parent mouse events
 
-            Neuron neuron = (sender as Ellipse).Parent as Neuron;
+            Neuron neuron = ((sender as Ellipse).Parent as Grid).Parent as Neuron;
             ((Ellipse)sender).Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFBF7272"));
             if (selectedNeuron[0] == null) {
                 deselectPrevious(false);
@@ -342,8 +357,8 @@ namespace deepLearning
                 selectedLayer.Content.Background = new SolidColorBrush(Colors.Transparent);
             }
             if (deselectNeurons) {
-                if (selectedNeuron[0] != null) selectedNeuron[0].ellipse.Fill = Brushes.White;
-                if (selectedNeuron[1] != null) selectedNeuron[1].ellipse.Fill = Brushes.White;
+                if (selectedNeuron[0] != null) selectedNeuron[0].displayColor();
+                if (selectedNeuron[1] != null) selectedNeuron[1].displayColor();
                 selectedNeuron = new Neuron[2];
             }
         }
@@ -425,6 +440,7 @@ namespace deepLearning
             }
             public class Neuron
             {
+                public Function function;
                 public List<Link> links = new List<Link>();
             }
             public class Link
@@ -442,7 +458,7 @@ namespace deepLearning
                 model.layers.Add(new Model.Layer() { name = layers[l].layerName });
                 for (int n = 0; n < layers[l].neurons.Count; ++n) {
                     Neuron neuron = layers[l].neurons[n];
-                    model.layers[l].neurons.Add(new Model.Neuron());
+                    model.layers[l].neurons.Add(new Model.Neuron() { function = neuron.function });
                     for (int k = 0; k < neuron.links.Count; ++k) {
                         Model.Link link = new Model.Link() {
                             inputIndex = layers[l - 1].neurons.IndexOf(neuron.links[k].input),
@@ -506,7 +522,7 @@ namespace deepLearning
                 var layer = new Layer() { layerName = modelLayer.name };
                 for (int n = 0; n < modelLayer.neurons.Count; ++n) {
                     var modelNeuron = modelLayer.neurons[n];
-                    var neuron = new Neuron() { parentLayer = layer };
+                    var neuron = new Neuron() { parentLayer = layer, function = modelNeuron.function };
                     for (int k = 0; k < modelNeuron.links.Count; ++k) {
                         var modelLink = modelNeuron.links[k];
                         var link = new Link() { Weight = modelLink.weight };
@@ -516,7 +532,7 @@ namespace deepLearning
                         Panel.SetZIndex(link, -1);
                         mainCanvas.Children.Add(link);
                     }
-                    neuron.ellipse.MouseUp += selectNeuron;
+                    neuron.ellipse.MouseLeftButtonUp += selectNeuron;
                     layer.neurons.Add(neuron);
                     layer.Content.Children.Add(neuron);
                 }
@@ -544,6 +560,7 @@ namespace deepLearning
         {
             resetNetwork();
         }
+
     }
 
 

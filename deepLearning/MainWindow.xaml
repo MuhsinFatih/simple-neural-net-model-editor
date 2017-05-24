@@ -228,7 +228,10 @@
                         </Border>
                         <Grid x:Name="neurons_menu"/>
                     </StackPanel>
-                    <Button x:Name="btn_reset" Style="{DynamicResource MaterialDesignFlatButton}" Margin="20,0,20,10" Content="Reset the network" Grid.Row="1" Height="Auto" Padding="8" Foreground="#FF616161" Background="#FFE1B2B2" Click="btn_reset_Click"/>
+                    <StackPanel Grid.Row="1">
+                        <Button x:Name="btn_run" Style="{DynamicResource MaterialDesignRaisedButton}" Margin="20,0,20,10" Content="Approximate" Height="Auto" Padding="8" Foreground="#FF616161" Background="#FFB2E1BF" Click="btn_run_Click"/>
+                        <Button x:Name="btn_reset" Style="{DynamicResource MaterialDesignFlatButton}" Margin="20,0,20,10" Content="Reset the network" Height="Auto" Padding="8" Foreground="#FF616161" Background="#FFE1B2B2" Click="btn_reset_Click"/>
+                    </StackPanel>
                     <Border Grid.Row="2" Padding="0">
                         <StackPanel>
                             <Label FontSize="20" Foreground="#FF151515" Padding="20,10,10,0" Background="#19000000" FontWeight="Light" VerticalAlignment="Top" Content="File"/>
@@ -247,6 +250,7 @@
 
 
             </Grid>
+
 
 
 

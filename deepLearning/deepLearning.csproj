@@ -140,10 +140,17 @@
     <Resource Include="Empty.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="plus.png" />
+    <Resource Include="plus %281%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="plus %281%29.png" />
+    <Content Include="sigmoid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="relu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
