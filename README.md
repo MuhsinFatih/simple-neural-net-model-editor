@@ -1,5 +1,5 @@
 # simple-neural-net-model-editor
-inspired by this video of Brandon Rohrer: https://youtu.be/ILsA4nyG7I0
+Inspired by this video of Brandon Rohrer: https://youtu.be/ILsA4nyG7I0  
 my OOP project  
 This is an extremely simple neural net application (by simple I mean noob level, which I am..)  
 Sometimes the code gets really dirty, but I had finishing my OOP project in time in mind so brace for impact if you gaze on my code, it might hurt :P)  
