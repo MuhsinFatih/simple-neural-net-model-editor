@@ -1,8 +1,8 @@
 # simple-neural-net-model-editor
 Inspired by this video of Brandon Rohrer: https://youtu.be/ILsA4nyG7I0  
 my OOP project  
-This is an extremely simple neural net application (by simple I mean noob level, which I am..)  
-Sometimes the code gets really dirty, but I had finishing my OOP project in time in mind so brace for impact if you gaze on my code, it might hurt :P)  
+This is an extremely simple neural net application.
+Sometimes the code gets really dirty, but I had finishing my OOP project in time, so I may have used bad programming practices, whatever :P
 There is NO BACKPROPAGATION NO LEARNING NO NOTHING. yet.  
 Have fun ^^  
 ![Screenshot](screenshots/1.png)
